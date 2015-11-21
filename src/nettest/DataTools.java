@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.IllegalFormatException;
 import java.util.Scanner;
 
 public class DataTools {
@@ -33,6 +32,70 @@ public class DataTools {
                         newDataset[i][newColumnIndex] = dataset[i][j];
                         newColumnIndex++;
                     }
+                }
+            }
+            
+            return newDataset;
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Randomly shuffle all tuples in the dataset
+     * @param dataset
+     * @return dataset with tuples rearranged;
+     */
+    public static double[][] shuffleData(double[][] dataset) {
+        ArrayList<Double[]> shuffleData = new ArrayList<>();
+        
+        int tupleSize = dataset[0].length;
+        int tupleCount = dataset.length;
+        
+        for (int i = 0; i < tupleCount; i++) {
+            Double[] tuple = new Double[tupleSize];
+            for (int j = 0; j < tupleSize; j++) {
+                tuple[j] = dataset[i][j];
+            }
+            shuffleData.add(tuple);
+        }
+        
+        double[][] newDataset = new double[tupleCount][tupleSize];
+        int size = tupleCount;
+        for (int i = 0; i < tupleCount; i++) {
+            
+            Double[] tuple = shuffleData.remove(rand.nextInt(size));
+            size--;
+            
+            for (int j = 0; j < tupleSize; j++) {
+                newDataset[i][j] = tuple[j];
+            }
+        }
+        
+        return newDataset;
+    }
+
+    /**
+     * Remove the specified column
+     * @param dataset
+     * @param columnIndex
+     * @return 2D double array, dataset without the specified column
+     */
+    public static double[][] removeColumn(double[][] dataset, int columnIndex) {
+        if (dataset != null) {
+            double[][] newDataset = new double[dataset.length][dataset[0].length - 1];
+            
+            for (int i = 0; i < dataset.length; i++) {
+                int newColumnIndex = 0;
+                for (int j = 0; j < dataset[i].length; j++) {
+                    if (j == columnIndex) {
+                        j++;
+                        if (j >= dataset[i].length) {
+                            break;
+                        }
+                    }
+                        newDataset[i][newColumnIndex] = dataset[i][j];
+                        newColumnIndex++;
                 }
             }
             
@@ -126,14 +189,17 @@ public class DataTools {
         
         switch(file_name) {
             case "data/SPECTF.csv":
-                data = setClass(data, 0);
+                data = removeColumn(data, 0);
                 break;
             case "data/turkiye-student-evaluation_generic.csv":
-                data = setClass(data, 1);
+                data = removeColumn(data, 1);
+                break;
+            case "data/bupa.csv":
+                data = removeColumn(data, data[0].length - 1);
                 break;
         }
         
-        data = incrementalClasses(data);
+        data = shuffleData(data);
         
         return data;
     }
