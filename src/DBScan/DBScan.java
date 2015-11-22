@@ -3,14 +3,13 @@ package DBScan;
 import java.util.ArrayList;
 import java.util.HashMap;
 import nettest.DataTools;
+import training.Cluster;
 
 /**
- * Seeds: DBScan(5)
- * bupa: DBScan(dataset[0].length * 2, 0.2)
- * wholesale: DBScan(dataset[0].length + 2, 0.1)
+ * 
  * @author David Bell
  */
-public class DBScan {
+public class DBScan implements Cluster {
     
     private final double deviationsFromMean;
     private double regionSize;
@@ -20,26 +19,7 @@ public class DBScan {
         double[][] dataset = nettest.DataTools.getDataFromFile("data/gesture.csv");
         DBScan db = new DBScan(dataset[0].length * 2, 4.0);
         
-        int[] results = db.scan(dataset);
         
-        int count = 0;
-        
-        HashMap<Integer,Integer> clusterLabels = new HashMap<>();
-        
-        for(int i = 0; i < results.length; i++) {
-            int currentCluster = results[i];
-            if (currentCluster >= 0) {
-                
-                int value = clusterLabels.getOrDefault(currentCluster, Integer.valueOf(0));
-                value += 1;
-                clusterLabels.put(currentCluster, value);
-            }
-        }
-        
-        System.out.println("Dataset size: " + dataset.length);
-        for (int i = 0; i < clusterLabels.size(); i++) {
-            System.out.format("Cluster: %d, size: %d%n", i, clusterLabels.get(i));
-        }
     }
     
     /**
@@ -63,7 +43,7 @@ public class DBScan {
     
     /**
      * Set only minPoints.
-     * @param deviations 
+     * @param minPoints
      */
     public DBScan(int minPoints) {
         this.minPoints = minPoints;
@@ -94,8 +74,63 @@ public class DBScan {
         deviationsFromMean = 0;
     }
     
+    public DBScan(String dataset) {
+        switch(dataset) {
+            case "data/wholesale.csv":
+                minPoints = 10;
+                regionSize = -1;
+                deviationsFromMean = 0.1;
+                break;
+            case "data/gesture.csv":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/dow_jones.data":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/SPECTF.csv":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/turkiye-student-evaluation_generic.csv":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/synthetic_control.data":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/seeds.data":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 5;
+                break;
+            case "data/airfoil.data":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            case "data/movement_libras.csv":
+                minPoints = -1;
+                regionSize = -1;
+                deviationsFromMean = 2;
+                break;
+            default: // data/bupa.csv
+                minPoints = 15;
+                regionSize = -1;
+                deviationsFromMean = 0.2;
+                break;
+        }
+    }
     
-    public int[] scan(double[][] dataset) {
+    
+    public int[] run(double[][] dataset) {
         // Set regionSize if regionSize not known
         if (regionSize < 0) {
             regionSize = setEpsilon(dataset);
