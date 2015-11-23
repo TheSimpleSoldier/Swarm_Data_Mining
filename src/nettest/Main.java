@@ -62,9 +62,12 @@ public class Main
         }
         
         System.out.println("Dataset size: " + dataset.length);
+        int countPts = 0;
         for (int i = 0; i < clusterLabels.size(); i++) {
+            countPts += clusterLabels.get(i);
             System.out.format("Cluster: %d, size: %d%n", i, clusterLabels.get(i));
         }
+        System.out.println("Points in clusters: " + countPts);
     }
     
 }
