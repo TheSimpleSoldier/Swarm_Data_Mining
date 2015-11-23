@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class DataTools {
     
     private static final java.util.Random rand = new java.util.Random();
+    
     /**
      * Set the specified column as the class attribute, making it the last column.
      * @param dataset
@@ -46,6 +47,7 @@ public class DataTools {
     /**
      * Randomly shuffle all tuples in the dataset
      * @param dataset
+     * @param indices
      * @return dataset with tuples rearranged;
      */
     public static double[][] shuffleData(double[][] dataset) {
@@ -65,8 +67,8 @@ public class DataTools {
         double[][] newDataset = new double[tupleCount][tupleSize];
         int size = tupleCount;
         for (int i = 0; i < tupleCount; i++) {
-            
-            Double[] tuple = shuffleData.remove(rand.nextInt(size));
+            int index = rand.nextInt(size);
+            Double[] tuple = shuffleData.remove(index);
             size--;
             
             for (int j = 0; j < tupleSize; j++) {
@@ -268,7 +270,6 @@ public class DataTools {
         }
         
         data = normalizeData(data);
-        data = shuffleData(data);
         
         return data;
     }

@@ -34,8 +34,9 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 3;      // Specify the file to use (see file array)
-        int testIterations = 2; // Specify the number of test iterations
+        int fileIndex = 3;        // Specify the file to use (see file array)
+        int testIterations = 1;   // Specify the number of test iterations
+        boolean debugging = true; // Set to true if you want to print data for individual runs.
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
@@ -49,7 +50,7 @@ public class Main
         
         // Run experiment (temporary printout of cluster population for immediate testing)
         System.out.println("Testing on " + dataFile[fileIndex]);
-        experiment.run();
+        experiment.run(dataFile[fileIndex], debugging);
     }
     
 }
