@@ -26,7 +26,7 @@ public class Main
     };
 
     /**
-     * To run a specific training algorithm, specify its parameters in its
+     * To run a specific clustering algorithm, specify its parameters in its
      * respective array and select set the fileIndex variable to the index of 
      * the desired dataset.
      * 
@@ -34,7 +34,8 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 3;  // Specify the file to use (see file array)
+        int fileIndex = 3;      // Specify the file to use (see file array)
+        int testIterations = 2; // Specify the number of test iterations
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
@@ -44,30 +45,11 @@ public class Main
             new DBScan.DBScan(dataFile[fileIndex]),
         };
         
+        Experimenter experiment = new Experimenter(clusters, dataset, testIterations);
+        
         // Run experiment (temporary printout of cluster population for immediate testing)
-        int[] results = clusters[0].run(dataset);
-        
-        int count = 0;
-        
-        HashMap<Integer,Integer> clusterLabels = new HashMap<>();
-        
-        for(int i = 0; i < results.length; i++) {
-            int currentCluster = results[i];
-            if (currentCluster >= 0) {
-                
-                int value = clusterLabels.getOrDefault(currentCluster, Integer.valueOf(0));
-                value += 1;
-                clusterLabels.put(currentCluster, value);
-            }
-        }
-        
-        System.out.println("Dataset size: " + dataset.length);
-        int countPts = 0;
-        for (int i = 0; i < clusterLabels.size(); i++) {
-            countPts += clusterLabels.get(i);
-            System.out.format("Cluster: %d, size: %d%n", i, clusterLabels.get(i));
-        }
-        System.out.println("Points in clusters: " + countPts);
+        System.out.println("Testing on " + dataFile[fileIndex]);
+        experiment.run();
     }
     
 }
