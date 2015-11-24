@@ -233,9 +233,9 @@ public class DataTools {
                 break;
             case "data/wholesale.csv":
                 // Remove flags for region
-                data = removeColumn(data, 0);
+//                data = removeColumn(data, 0);
                 // Remove flags for channel
-                data = removeColumn(data, 0);
+//                data = removeColumn(data, 0);
                 break;
             case "data/gesture.csv":
                 // Remove timestamp
@@ -249,7 +249,7 @@ public class DataTools {
                 break;
             case "data/SPECTF.csv":
                 // Remove only binary attribute (class attribute)
-                data = removeColumn(data, 0);
+//                data = removeColumn(data, 0);
                 break;
             case "data/turkiye-student-evaluation_generic.csv":
                 // Keep everything, values of class attribute(s) are similar to

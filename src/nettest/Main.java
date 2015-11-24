@@ -1,25 +1,18 @@
 package nettest;
 
-import java.io.File;
 import training.*;
-import org.json.JSONObject;
-import org.apache.commons.io.FileUtils;
-import feedforward.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main
 {
     // Array of every JSON file name. Indices are the same as the datasets.
     public static String[] dataFile = {
         "data/movement_libras.csv",
-        "data/turkiye-student-evaluation_generic.JSON",
+        "data/turkiye-student-evaluation_generic.csv",
         "data/airfoil.data",
         "data/seeds.data",
         "data/synthetic_control.data",
         "data/dow_jones.data",
-        "data/SPECTF.JSON",
+        "data/SPECTF.csv",
         "data/gesture.csv",
         "data/wholesale.csv",
         "data/bupa.csv",
@@ -34,22 +27,22 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 3;        // Specify the file to use (see file array)
-        int testIterations = 1;   // Specify the number of test iterations
-        boolean debugging = true; // Set to true if you want to print data for individual runs.
+        int fileIndex = 3;  // Specify the file to use (see file array)
+        int testIterations = 1;  // Specify the number of test iterations
+        boolean debugging = false;  // Set to true if you want to print data for individual runs.
+        boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
         
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
-            new DBScan.DBScan(dataFile[fileIndex]),
+            new DBScan.DBScan(dataFile[fileIndex], verbose),
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations);
         
-        // Run experiment (temporary printout of cluster population for immediate testing)
-        System.out.println("Testing on " + dataFile[fileIndex]);
+        // Run experiment
         experiment.run(dataFile[fileIndex], debugging);
     }
     
