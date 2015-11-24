@@ -1,0 +1,67 @@
+dataset: data/movement_libras.csv, size: 360, attributes: 91
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 88.333            | 63.600       | 5.000         | 3.230      | 1.719
+
+
+
+dataset: data/turkiye-student-evaluation_generic.csv, size: 5820, attributes: 33
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 71.907            | 2092.500     | 2.000         | 3.658      | 1.471
+
+
+
+dataset: data/airfoil.data, size: 1503, attributes: 6
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 77.312            | 61.158       | 19.000        | 0.952      | 0.234
+
+
+
+dataset: data/seeds.data, size: 210, attributes: 8
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 83.333            | 58.333       | 3.000         | 1.234      | 0.383
+
+
+
+dataset: data/synthetic_control.data, size: 600, attributes: 60
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 65.333            | 130.667      | 3.000         | 2.354      | 1.203
+
+
+
+dataset: data/dow_jones.data, size: 720, attributes: 14
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 80.833            | 116.400      | 5.000         | 1.034      | 0.317
+
+
+
+dataset: data/SPECTF.csv, size: 187, attributes: 45
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 60.428            | 56.500       | 2.000         | 1.326      | 0.843
+
+
+
+dataset: data/gesture.csv, size: 4845, attributes: 19
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 87.121            | 469.000      | 9.000         | 1.783      | 0.259
+
+
+
+dataset: data/wholesale.csv, size: 440, attributes: 8
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 96.364            | 70.667       | 6.000         | 0.990      | 0.185
+
+
+
+dataset: data/bupa.csv, size: 345, attributes: 6
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 36.232            | 41.667       | 3.000         | 0.254      | 0.148
