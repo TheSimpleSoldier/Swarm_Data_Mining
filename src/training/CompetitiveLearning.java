@@ -1,19 +1,21 @@
 package training;
 
+import feedforward.ActivationFunction;
 import feedforward.FeedForwardNeuralNetwork;
 
 /**
  * Created by joshua on 10/14/15.
  * This class teaches a given neural network with the backpropagation algorithm.
  */
-public class Backpropagation implements Trainer
+public class CompetitiveLearning implements Cluster
 {
     private double learningRate;
     private double momentum;
+    private int maxClusters;
     private double[] lastDeltas;
     private double[] parameters;
 
-    public Backpropagation(double[] parameters)
+    public CompetitiveLearning(double[] parameters)
     {
         this.parameters = parameters;
     }
@@ -21,15 +23,17 @@ public class Backpropagation implements Trainer
     /**
      * This is the main runner for the algorithm, it loops through the examples,
      * training the network on each example
-     * @param net the starting network
      * @param examples a 2-d array of examples. each example has a list of inputs and
      *                 expected outputs.
      * @return returns a network that is the result of running backpropagation on the examples
      */
     @Override
-    public FeedForwardNeuralNetwork run(FeedForwardNeuralNetwork net, double[][] examples)
+    public int[] run(double[][] examples)
     {
         System.out.println("Starting backprop");
+        FeedForwardNeuralNetwork net = new FeedForwardNeuralNetwork(1,
+                new int[]{examples[0].length, 100, maxClusters}, ActivationFunction.LOGISTIC,
+                ActivationFunction.LOGISTIC);
         lastDeltas = new double[net.getWeights().length];
         learningRate = parameters[0];
         momentum = parameters[1];
@@ -43,30 +47,57 @@ public class Backpropagation implements Trainer
             for(int k = 0; k < examples.length; k++)
             {
                 double[] input = new double[sizes[0]];
-                double[] output = new double[sizes[sizes.length - 1]];
 
                 //separate input and output
                 for(int a = 0; a < input.length; a++)
                 {
                     input[a] = examples[k][a];
                 }
-                output[(int)Math.round(examples[k][examples[0].length - 1])] = 1;
 
                 //run backprop on it
-                backprop(input, output, net);
+                backprop(input, net);
             }
         }
-        
-        return net;
+
+        int[] toReturn = new int[examples.length];
+
+        //for each example
+        for(int k = 0; k < examples.length; k++)
+        {
+            double[] input = new double[sizes[0]];
+
+            //separate input and output
+            for(int a = 0; a < input.length; a++)
+            {
+                input[a] = examples[k][a];
+            }
+
+            //run backprop on it
+            double[] outputs = net.compute(input);
+
+            int cluster = 0;
+            double max = 0;
+            for(int a = 0; a < maxClusters; a++)
+            {
+                if(outputs[a] > max)
+                {
+                    cluster = a;
+                    max = outputs[a];
+                }
+            }
+
+            toReturn[k] = cluster;
+        }
+
+        return toReturn;
     }
 
     /**
      * Given an example with the inputs and expected outputs, trains the network
      * @param inputs the inputs for the example
-     * @param expectedOutputs what the outputs should be
      * @param net the network to train
      */
-    public void backprop(double[] inputs, double[] expectedOutputs, FeedForwardNeuralNetwork net)
+    public void backprop(double[] inputs, FeedForwardNeuralNetwork net)
     {
         //create variables that will be used later
         int[] sizes = net.getSizes();
@@ -83,12 +114,6 @@ public class Backpropagation implements Trainer
         if(inputs.length != sizes[0])
         {
             System.out.println("Invalid number of inputs");
-            return;
-        }
-
-        if(expectedOutputs.length != sizes[sizes.length - 1])
-        {
-            System.out.println("Invalid number of outputs");
             return;
         }
 
@@ -129,6 +154,22 @@ public class Backpropagation implements Trainer
             lastLayer = sizes[k];
         }
 
+        double[] expectedOutputs = new double[maxClusters];
+        int cluster = 0;
+        double max = 0;
+        for(int k = 0; k < maxClusters; k++)
+        {
+            expectedOutputs[k] = allOutputs[hiddenLayers + 1][k];
+            if(allOutputs[hiddenLayers + 1][k] > max)
+            {
+                cluster = k;
+                max = allOutputs[hiddenLayers + 1][k];
+            }
+        }
+
+        expectedOutputs[cluster] = 1;
+
+
         //go backward from output to first hidden layer
         for(int k = hiddenLayers + 1; k > 0; k--)
         {
@@ -165,6 +206,5 @@ public class Backpropagation implements Trainer
                 }
             }
         }
-
     }
 }
