@@ -15,8 +15,9 @@ public class kMeansClusterer
     {
         double[] array = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 
-        kMeansClusterer kmeansClusterer = new kMeansClusterer(1,2);
+        kMeansClusterer kmeansClusterer = new kMeansClusterer(10,2);
 
+        System.out.println("Hello World");
         System.out.println(kmeansClusterer.run(array));
     }
 
