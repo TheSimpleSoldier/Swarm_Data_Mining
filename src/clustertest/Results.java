@@ -1,8 +1,7 @@
-package nettest;
+package clustertest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import static nettest.DataTools.distance;
 
 /**
  *

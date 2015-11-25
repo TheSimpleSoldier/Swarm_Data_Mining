@@ -1,7 +1,7 @@
-package nettest;
+package clustertest;
 
 import kMeans.kMeansClusterer;
-import training.*;
+import clustering.*;
 
 public class Main
 {

@@ -1,6 +1,6 @@
 package kMeans;
 
-import training.Cluster;
+import clustering.Cluster;
 
 public class kMeansClusterer implements Cluster
 {

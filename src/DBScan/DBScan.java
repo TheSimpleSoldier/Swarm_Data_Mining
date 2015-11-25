@@ -1,9 +1,9 @@
 package DBScan;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import nettest.DataTools;
-import training.Cluster;
+
+import clustertest.DataTools;
+import clustering.Cluster;
 
 /**
  * 
