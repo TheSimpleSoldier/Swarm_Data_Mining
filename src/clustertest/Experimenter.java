@@ -1,6 +1,7 @@
 package clustertest;
 
 import clustering.*;
+import java.util.ArrayList;
 
 /**
  * 
@@ -54,7 +55,15 @@ public class Experimenter {
                 
                 // Label every datapoint in the dataset
                 int[] labels = cluster.run(data);
-                
+                ArrayList<Integer> newLabels = new ArrayList<>();
+                for (int j = 0; j < labels.length; j++) {
+                    if (newLabels.contains(labels[j])) {
+                        labels[j] = newLabels.indexOf(labels[j]);
+                    } else {
+                        newLabels.add(labels[j]);
+                        labels[j] = newLabels.indexOf(labels[j]);
+                    }
+                }
                 // Get the end time
                 long end = System.currentTimeMillis();
                 
@@ -124,7 +133,7 @@ public class Experimenter {
         for (int i = 0; i < results.length; i++) {
             // Metadata
             System.out.format("Algorithm: %s, iterations: %d, dataset: %s, size: %d, attributes: %d%n", 
-                    results[0][0].algorithm(),
+                    results[i][0].algorithm(),
                     results[0].length,
                     results[0][0].datasetName(),
                     results[0][0].datasetSize(),
@@ -204,10 +213,10 @@ public class Experimenter {
             cohesionAves[i] = cohesion;
             cohesionErrs[i] = 100.0 * cohesionErr;
         }
-        System.out.println("----------------------------------------Averages----------------------------------------");
-        System.out.println("Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion");
+        System.out.println("-------------------------------------------Averages-------------------------------------------");
+        System.out.println("Algorithm           | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion");
         for (int i = 0; i < results.length; i++) {
-            System.out.format("%-14s| %-18.3f| %-13.3f| %-14.3f| %-11.3f| %.3f%n",
+            System.out.format("%-20s| %-18.3f| %-13.3f| %-14.3f| %-11.3f| %.3f%n",
                     results[i][0].algorithm(),
                     percentClusteredAves[i],
                     clusterSizeAves[i],
@@ -216,10 +225,10 @@ public class Experimenter {
                     cohesionAves[i]);
         }
         
-        System.out.println("-----------------------------------------Errors-----------------------------------------");
-        System.out.println("Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion");
+        System.out.println("--------------------------------------------Errors--------------------------------------------");
+        System.out.println("Algorithm           | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion");
         for (int i = 0; i < results.length; i++) {
-        System.out.format("%-14s| %-18.3f| %-13.3f| %-14.3f| %-11.3f| %.3f%n",
+        System.out.format("%-20s| %-18.3f| %-13.3f| %-14.3f| %-11.3f| %.3f%n",
                     results[i][0].algorithm(),
                     percentClusteredErrs[i],
                     clusterSizeErrs[i],
