@@ -8,12 +8,14 @@ import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.IllegalFormatException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DataTools {
     
     private static final java.util.Random rand = new java.util.Random();
+    
     /**
      * Set the specified column as the class attribute, making it the last column.
      * @param dataset
@@ -43,6 +45,100 @@ public class DataTools {
     }
     
     /**
+     * Randomly shuffle all tuples in the dataset
+     * @param dataset
+     * @param indices
+     * @return dataset with tuples rearranged;
+     */
+    public static double[][] shuffleData(double[][] dataset) {
+        ArrayList<Double[]> shuffleData = new ArrayList<>();
+        
+        int tupleSize = dataset[0].length;
+        int tupleCount = dataset.length;
+        
+        for (int i = 0; i < tupleCount; i++) {
+            Double[] tuple = new Double[tupleSize];
+            for (int j = 0; j < tupleSize; j++) {
+                tuple[j] = dataset[i][j];
+            }
+            shuffleData.add(tuple);
+        }
+        
+        double[][] newDataset = new double[tupleCount][tupleSize];
+        int size = tupleCount;
+        for (int i = 0; i < tupleCount; i++) {
+            int index = rand.nextInt(size);
+            Double[] tuple = shuffleData.remove(index);
+            size--;
+            
+            for (int j = 0; j < tupleSize; j++) {
+                newDataset[i][j] = tuple[j];
+            }
+        }
+        
+        return newDataset;
+    }
+
+    /**
+     * Remove the specified column
+     * @param dataset
+     * @param columnIndex
+     * @return 2D double array, dataset without the specified column
+     */
+    public static double[][] removeColumn(double[][] dataset, int columnIndex) {
+        if (dataset != null) {
+            double[][] newDataset = new double[dataset.length][dataset[0].length - 1];
+            
+            for (int i = 0; i < dataset.length; i++) {
+                int newColumnIndex = 0;
+                for (int j = 0; j < dataset[i].length; j++) {
+                    if (j == columnIndex) {
+                        j++;
+                        if (j >= dataset[i].length) {
+                            break;
+                        }
+                    }
+                        newDataset[i][newColumnIndex] = dataset[i][j];
+                        newColumnIndex++;
+                }
+            }
+            
+            return newDataset;
+        } else {
+            return null;
+        }
+    }
+    
+    public static double[][] normalizeData(double[][] dataset) {
+        double[] min = new double[dataset[0].length];
+        double[] max = new double[dataset[0].length];
+        // Initialize the minimum and maximum values
+        for (int i = 0; i < max.length; i++) {
+            max[i] = Double.MIN_VALUE;
+            min[i] = Double.MAX_VALUE;
+        }
+        // Find the min and max of each attribute in the dataset
+        for (int i = 0; i < dataset.length; i++) {
+            for (int j = 0; j < dataset[i].length; j++) {
+                if (max[j] < dataset[i][j]) {
+                    max[j] = dataset[i][j];
+                }
+                if (min[j] > dataset[i][j]) {
+                    min[j] = dataset[i][j];
+                }
+            }
+        }
+        
+        // Normalize the data relative to its min and max
+        for (int i = 0; i < dataset.length; i++) {
+            for (int j = 0; j < dataset[i].length; j++) {
+                dataset[i][j] = (dataset[i][j]-min[j])/(max[j]-min[j]);
+            }
+        }
+        return dataset;
+    }
+    
+    /**
      * Get a dataset from a CSV.
      * @param file_name
      * @return 2D array data[i][j]
@@ -56,6 +152,8 @@ public class DataTools {
         
         double newValue = 1.0;
         
+        boolean csv = file_name.contains("csv");
+        
         try {
             
             Scanner scan = new Scanner(new File(file_name));
@@ -64,8 +162,12 @@ public class DataTools {
             
             while(scan.hasNext()) {
                 ArrayList<Double> tuple = new ArrayList();
+                
                 String line = scan.nextLine();
                 line = line.trim();
+                
+                line = replaceSpaces(line);
+                
                 while (line.contains(comma)) {
                     
                     int index = line.indexOf(comma);
@@ -125,15 +227,49 @@ public class DataTools {
         }
         
         switch(file_name) {
+            case "data/bupa.csv":
+                // Remove selector attribute
+                data = removeColumn(data, data[0].length - 1);
+                break;
+            case "data/wholesale.csv":
+                // Remove flags for region
+//                data = removeColumn(data, 0);
+                // Remove flags for channel
+//                data = removeColumn(data, 0);
+                break;
+            case "data/gesture.csv":
+                // Remove timestamp
+                data = removeColumn(data, data[0].length - 2);
+                break;
+            case "data/dow_jones.data":
+                // Remove fiscal quarter
+                data = removeColumn(data, 0);
+                // Remove timestamp
+                data = removeColumn(data, 1);
+                break;
             case "data/SPECTF.csv":
-                data = setClass(data, 0);
+                // Remove only binary attribute (class attribute)
+//                data = removeColumn(data, 0);
                 break;
             case "data/turkiye-student-evaluation_generic.csv":
-                data = setClass(data, 1);
+                // Keep everything, values of class attribute(s) are similar to
+                // the values of other attributes.
+                break;
+            case "data/synthetic_control.data":
+                // Keep everything.
+                break;
+            case "data/seeds.data":
+                // Keep everything.
+                break;
+            case "data/airfoil.data":
+                // Keep everything.
+                break;
+            case "data/movement_libras.csv":
+                // Keep everything.
                 break;
         }
         
-        data = incrementalClasses(data);
+        data = normalizeData(data);
         
         return data;
     }
@@ -223,6 +359,41 @@ public class DataTools {
         for(int i = 0; i < data.length; i++) {
             System.out.println(data[i][data[i].length - 1]);
         }
+    }
+    
+    public static double[][] distancesTo(double[][] dataset) {
+        int length = dataset.length;
+        double[][] distances = new double[length][length];
+        for (int i = 0; i < length; i++) {
+            for (int j = i + 1; j < length; j++) {
+                distances[i][j] = distance(dataset[i], dataset[j]);
+                distances[j][i] = distances[i][j];
+            }
+        }
+        return distances;
+    }
+    
+    /**
+     * Find the Euclidean distance between a and b.
+     * 
+     * @param a
+     * @param b
+     * @return 
+     */
+    public static double distance(double[] a, double[] b) {
+        double distance = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            double difference = a[i] - b[i];
+            distance += difference * difference;
+        }
+        return Math.sqrt(distance);
+    }
+    
+    public static String replaceSpaces(String line) {
+        Pattern find = Pattern.compile("(\\s+)");
+        String replace = ",";
+        Matcher matcher = find.matcher(line);
+        return matcher.replaceAll(replace);
     }
     
     /**
