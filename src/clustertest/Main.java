@@ -37,7 +37,8 @@ public class Main
         
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
-            new DBScan.DBScan(dataFile[fileIndex], verbose),
+            //new DBScan.DBScan(dataFile[fileIndex], verbose),
+            new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations);
