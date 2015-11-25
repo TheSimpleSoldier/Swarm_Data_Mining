@@ -38,7 +38,7 @@ public class Experimenter {
         Results[][] results = new Results[clusters.length][TEST_ITERATIONS];
         
         // Copy the dataset
-        for (int i = 0; i < TEST_ITERATIONS;) {
+        for (int i = 0; i < TEST_ITERATIONS; i++) {
             // Shuffle data
             int[] indices = new int[dataset.length];
             double[][] data = DataTools.shuffleData(dataset);
@@ -61,7 +61,7 @@ public class Experimenter {
                         end - startTime, cluster.toString(), distances, dataName);
                 
                 // Increment i, increment algorithm index, print out status.
-                i += 1;
+                //i += 1;
                 algorithmIndex += 1;
                 System.out.println("Completed iteration " + i + " of " + TEST_ITERATIONS);
             }
