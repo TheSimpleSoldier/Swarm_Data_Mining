@@ -5,7 +5,7 @@ import clustering.*;
 
 public class Main
 {
-    // Array of every JSON file name. Indices are the same as the datasets.
+    // Array of every file name. Indices are the same as the datasets.
     public static String[] dataFile = {
         "data/movement_libras.csv",
         "data/turkiye-student-evaluation_generic.csv",
@@ -31,7 +31,7 @@ public class Main
         int fileIndex = 3;  // Specify the file to use (see file array)
         int testIterations = 1;  // Specify the number of test iterations
         boolean debugging = false;  // Set to true if you want to print data for individual runs.
-        boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).
+        boolean verbose = true;  // Set to true for verbose mode (demonstrate functionality).
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
@@ -43,7 +43,7 @@ public class Main
             new kMeansClusterer(10, 15, verbose)
         };
         
-        Experimenter experiment = new Experimenter(clusters, dataset, testIterations);
+        Experimenter experiment = new Experimenter(clusters, dataset, testIterations,verbose);
         
         // Run experiment
         experiment.run(dataFile[fileIndex], debugging);

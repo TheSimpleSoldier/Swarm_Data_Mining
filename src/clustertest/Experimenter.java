@@ -11,6 +11,7 @@ public class Experimenter {
     // Clustering algorithm objects to used in experiments.
     private final Cluster[] clusters;
     private final double[][] dataset;
+    private final boolean verbose;
     
     // Number of iterations through the randomly arranged dataset
     private final int TEST_ITERATIONS;
@@ -22,10 +23,11 @@ public class Experimenter {
      * @param in_dataset    Dataset to test on.
      * @param iterations    number of test runs over the dataset
      */
-    public Experimenter(Cluster[] in_clusters, double[][] in_dataset, int iterations) {
+    public Experimenter(Cluster[] in_clusters, double[][] in_dataset, int iterations, boolean verbose) {
         clusters = in_clusters;
         dataset = in_dataset;
         TEST_ITERATIONS = iterations;
+        this.verbose  = verbose;
     }
     
     /**
