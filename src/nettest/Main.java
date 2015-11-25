@@ -1,5 +1,6 @@
 package nettest;
 
+import kMeans.kMeansClusterer;
 import training.*;
 
 public class Main
@@ -38,6 +39,7 @@ public class Main
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
             new DBScan.DBScan(dataFile[fileIndex], verbose),
+            new kMeansClusterer(10, 15, verbose)
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations);

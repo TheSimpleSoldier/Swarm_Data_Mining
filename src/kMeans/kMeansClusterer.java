@@ -1,70 +1,113 @@
 package kMeans;
 
-public class kMeansClusterer
+import training.Cluster;
+
+public class kMeansClusterer implements Cluster
 {
     private double minDistance;
     private int numbOfClusters;
+    private boolean verbose;
 
-    public kMeansClusterer(double minDistance, int numbOfClusters)
+    public kMeansClusterer(double minDistance, int numbOfClusters, boolean verbose)
     {
         this.minDistance = minDistance;
         this.numbOfClusters = numbOfClusters;
+        this.verbose = verbose;
     }
 
-    public static void main(String[] args)
+    public void println(String msg)
     {
-        double[] array = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
-
-        kMeansClusterer kmeansClusterer = new kMeansClusterer(10,2);
-
-        System.out.println("Hello World");
-        System.out.println(kmeansClusterer.run(array));
+        if (verbose)
+        {
+            System.out.println(msg);
+        }
     }
 
-    public double[][] run(double[] inputs)
+    public void print(String msg)
     {
-        double[][] clusteredData;
+        if (verbose)
+        {
+            System.out.print(msg);
+        }
+    }
+
+    public int[] run(double[][] inputs)
+    {
+        println("Starting k-Means Clustering");
+        double[][][] clusteredData;
         double distance;
-        double[] clusters = pickInitialClusterPoints(inputs);
+        double[][] clusters = pickInitialClusterPoints(inputs);
 
         do {
+            println("Starting another round of clustering");
             clusteredData = assignInputsToClusters(inputs, clusters);
-            double[] newClusters = pickNewClusters(clusteredData);
+            double[][] newClusters = pickNewClusters(clusteredData);
             distance = avgClusterMovement(clusters, newClusters);
             clusters = newClusters;
         } while (distance > this.minDistance);
 
-
-        return clusteredData;
+        return findInputsIndex(inputs, clusteredData);
     }
 
-
-    public double distanceFunc(double x1, double x2)
+    public int[] findInputsIndex(double[][] inputs, double[][][] clusteredData)
     {
-        return Math.abs(x1 - x2);
+        int[] indexes = new int[inputs.length];
+
+        for (int i = 0; i < clusteredData.length; i++)
+        {
+            for (int j = 0; j < clusteredData[i].length; j++)
+            {
+                for (int k = 0; k < inputs.length; k++)
+                {
+                    if (inputs[k] == clusteredData[i][j])
+                    {
+                        indexes[k] = i;
+                        break;
+                    }
+                }
+            }
+        }
+        return indexes;
     }
 
-    public double[] pickInitialClusterPoints(double[] inputs)
+
+    public double distanceFunc(double[] x1, double[] x2)
+    {
+        double dist = 0;
+
+        for (int i = 0; i < x1.length; i++)
+        {
+            dist += (x1[i] - x2[i]) * (x1[i] - x2[i]);
+        }
+
+        return dist;
+    }
+
+    public double[][] pickInitialClusterPoints(double[][] inputs)
     {
         int numbOfClusters = 0;
         int size = this.numbOfClusters;
-        double[] clusters = new double[size];
+        double[][] clusters = new double[size][];
         int index = 0;
 
         while (numbOfClusters < size)
         {
-            if (Math.random() < 1/inputs.length)
+            if (Math.random() < 0.1)
             {
+                println("Selecting point: " + (index % inputs.length) + " To be an initial cluster");
                 clusters[numbOfClusters] = inputs[index % inputs.length];
+                numbOfClusters++;
             }
+            index++;
         }
 
         return clusters;
     }
 
-    public double[][] assignInputsToClusters(double[] inputs, double[] clusters)
+    public double[][][] assignInputsToClusters(double[][] inputs, double[][] clusters)
     {
-        double[][] clusteredData = new double[clusters.length][];
+        println("Assigning inputs to Clusters");
+        double[][][] clusteredData = new double[clusters.length][][];
         int[] inputsClusters = new int[inputs.length];
         int[] numbOfNodesInCluster = new int[clusters.length];
         for (int i = 0; i < inputs.length; i++)
@@ -80,13 +123,14 @@ public class kMeansClusterer
                     closestIndex = j;
                 }
             }
+            println("Assigning input: " + i + " to cluster: " + closestIndex);
             inputsClusters[i] = closestIndex;
             numbOfNodesInCluster[closestIndex]++;
         }
 
         for (int i = 0; i < clusters.length; i++)
         {
-            clusteredData[i] = new double[numbOfNodesInCluster[i]];
+            clusteredData[i] = new double[numbOfNodesInCluster[i]][];
         }
 
         int[] currentIndex = new int[clusters.length];
@@ -101,30 +145,38 @@ public class kMeansClusterer
         return clusteredData;
     }
 
-    public double getClusterCenter(double[] cluster)
+    public double[] getClusterCenter(double[][] cluster)
     {
-        double total = 0.0;
+        double[] total = new double[cluster[0].length];
         for (int i = 0; i < cluster.length; i++)
         {
-            total += cluster[i];
+            for (int j = 0; j < cluster[i].length; j++)
+            {
+                total[j] += cluster[i][j];
+            }
         }
 
-        return total/cluster.length;
-    }
-
-    public double[] pickNewClusters(double[][] clusteredData)
-    {
-        double[] newCluster = new double[clusteredData.length];
-
-        for (int i = 0; i < newCluster.length; i++)
+        for (int i = 0; i < total.length; i++)
         {
-            newCluster[i] = getClusterCenter(clusteredData[i]);
+            total[i] /= cluster.length;
         }
 
-        return newCluster;
+        return total;
     }
 
-    public double avgClusterMovement(double[] oldClusters, double[] newClusters)
+    public double[][] pickNewClusters(double[][][] clusteredData)
+    {
+        double[][] newClusters = new double[clusteredData.length][];
+
+        for (int i = 0; i < newClusters.length; i++)
+        {
+            newClusters[i] = getClusterCenter(clusteredData[i]);
+        }
+
+        return newClusters;
+    }
+
+    public double avgClusterMovement(double[][] oldClusters, double[][] newClusters)
     {
         double totalDist = 0.0;
 
@@ -134,7 +186,5 @@ public class kMeansClusterer
         }
 
         return totalDist / oldClusters.length;
-
     }
-
 }
