@@ -1,4 +1,4 @@
-package nettest;
+package clustertest;
 
 /**
  *
@@ -275,7 +275,7 @@ public class DataTools {
     }
     
     /**
-     * Randomly partition the dataset into two equal subsets, one training and
+     * Randomly partition the dataset into two equal subsets, one clustering and
      * one testing
      * @param dataset data to be partitioned
      * @return two random halves of the data set
@@ -297,7 +297,7 @@ public class DataTools {
         while(trainingIndex < half && testingIndex < half) {
             // Flip a coin...
             if (rand.nextBoolean()) {
-                // If heads, add the next instance of the dataset to the training set
+                // If heads, add the next instance of the dataset to the clustering set
                 for (int i = 0; i < numInputs; i++) {
                     trainingData[trainingIndex][i] = dataset[dataIndex][i];
                 }
@@ -315,7 +315,7 @@ public class DataTools {
             }
         }
         
-        // If the training index is still not full, give it the remaining data
+        // If the clustering index is still not full, give it the remaining data
         while(trainingIndex < half) {
             for (int i = 0; i < numInputs; i++) {
                 trainingData[trainingIndex][i] = dataset[dataIndex][i];

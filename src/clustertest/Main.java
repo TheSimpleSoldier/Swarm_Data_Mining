@@ -1,6 +1,6 @@
-package nettest;
+package clustertest;
 
-import training.*;
+import clustering.*;
 
 public class Main
 {

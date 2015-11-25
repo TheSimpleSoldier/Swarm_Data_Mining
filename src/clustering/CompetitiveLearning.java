@@ -1,4 +1,4 @@
-package training;
+package clustering;
 
 import feedforward.ActivationFunction;
 import feedforward.FeedForwardNeuralNetwork;
@@ -22,7 +22,7 @@ public class CompetitiveLearning implements Cluster
 
     /**
      * This is the main runner for the algorithm, it loops through the examples,
-     * training the network on each example
+     * clustering the network on each example
      * @param examples a 2-d array of examples. each example has a list of inputs and
      *                 expected outputs.
      * @return returns a network that is the result of running backpropagation on the examples

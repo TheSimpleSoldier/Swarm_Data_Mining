@@ -1,7 +1,6 @@
-package nettest;
+package clustertest;
 
-import training.*;
-import java.util.Arrays;
+import clustering.*;
 
 /**
  * 
