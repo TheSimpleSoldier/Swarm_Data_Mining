@@ -59,7 +59,7 @@ public class Experimenter {
                 for (int j = 0; j < labels.length; j++) {
                     if (newLabels.contains(labels[j])) {
                         labels[j] = newLabels.indexOf(labels[j]);
-                    } else {
+                    } else if (labels[j] >= 0) {
                         newLabels.add(labels[j]);
                         labels[j] = newLabels.indexOf(labels[j]);
                     }
