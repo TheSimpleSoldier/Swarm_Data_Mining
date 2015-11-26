@@ -173,6 +173,13 @@ public class CompetitiveLearning implements Cluster
 
         expectedOutputs[cluster] = 1;
 
+        System.out.println(cluster);
+        /*for(int k = 0; k < expectedOutputs.length; k++)
+        {
+            System.out.print(expectedOutputs[k] + ", ");
+        }
+        System.out.println();*/
+
 
         //go backward from output to first hidden layer
         for(int k = hiddenLayers + 1; k > 0; k--)

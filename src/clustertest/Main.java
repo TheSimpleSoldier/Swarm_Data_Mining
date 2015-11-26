@@ -40,7 +40,7 @@ public class Main
         Cluster[] clusters = new Cluster[] {
             new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
             new DBScan.DBScan(dataFile[fileIndex], verbose),
-            new kMeansClusterer(10, 15, verbose)
+//            new kMeansClusterer(10, 15, verbose)
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations,verbose);
