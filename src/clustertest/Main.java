@@ -2,6 +2,7 @@ package clustertest;
 
 import kMeans.kMeansClusterer;
 import clustering.*;
+import PSO.*;
 
 public class Main
 {
@@ -39,7 +40,8 @@ public class Main
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
             new DBScan.DBScan(dataFile[fileIndex], verbose),
-            new kMeansClusterer(10, 15, verbose)
+            new kMeansClusterer(10, 15, verbose),
+            new PSO(0.1, 0.1, 0.1, 10, verbose, 0.1, 10)
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations);
