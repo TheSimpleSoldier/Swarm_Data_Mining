@@ -1,0 +1,35 @@
+---------------------Begin DB-Scan---------------------
+Epsilon/max distance of neighbors: 0.235793
+Minimum vectors in a core neighborhood: 8
+
+Building cluster 1:
+Initial core vector index = 2, neighbors = 18.
+Merging core vectors: 18,37,47,25,56,59,70,45,40,48,80,62,123,88,132,121,137,104,152,196,158,146,160,167,202,183,55,9,82,161,17,205,191,178,200,207,208
+Merged 37 neighborhoods of core vectors into cluster 1.
+Final cluster size: 58 vectors.
+
+Building cluster 2:
+Initial core vector index = 4, neighbors = 14.
+Merging core vectors: 15,44,5,16,26,22,58,20,33,60,63,68,81,105,103,172,182,110,98,71,90,128,131,164,181,136,186,130,188,190,198,201
+Merged 32 neighborhoods of core vectors into cluster 2.
+Final cluster size: 53 vectors.
+
+Building cluster 3:
+Initial core vector index = 6, neighbors = 11.
+Merging core vectors: 27,53,19,8,29,73,74,31,13,66,38,78,99,75,97,94,100,109,117,120,148,209,176,141,113,86,93,147,118,149,184,185,155,139,142,187,173,156,194,168,159,199,175,204
+Merged 44 neighborhoods of core vectors into cluster 3.
+Final cluster size: 64 vectors.
+
+Applying new label 0 to cluster 2
+Applying new label 1 to cluster 1
+Applying new label 2 to cluster 3
+
+-----------------------End DB-Scan-----------------------
+
+
+Completed iteration 1 of 1
+
+Algorithm: DBScan, iterations: 1, dataset: data/seeds.data, size: 210, attributes: 8
+----------------------------------------Averages----------------------------------------
+Algorithm     | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+DBScan        | 83.333            | 58.333       | 3.000         | 1.234      | 0.383

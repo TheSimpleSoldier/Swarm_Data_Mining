@@ -77,7 +77,12 @@ public class Results {
                 separation += distances[indexA][indexB];
             }
         }
-        separation /= edgeCount;
+        
+        if (edgeCount > 0) {
+            separation /= edgeCount;
+        } else {
+            separation = 0;
+        }
         
         return separation;
     }
@@ -95,7 +100,12 @@ public class Results {
                 cohesion += distances[indexA][indexB];
             }
         }
-        cohesion /= edgeCount;
+        
+        if (edgeCount > 0) {
+            cohesion /= edgeCount;
+        } else {
+            cohesion = 0;
+        }
         
         return cohesion;
     }
@@ -149,7 +159,7 @@ public class Results {
         for (int i = 0; i < clusterCount(); i++) {
             clusterSizes += clusterSize(i);
         }
-        return clusterSizes / (double)clusterCount();
+        return clusterSizes / (double) clusterCount();
     }
     
     public double averageSeparation() {
@@ -157,11 +167,17 @@ public class Results {
         double edges = 0.0;
         for (int i = 0; i < clusterCount(); i++) {
             for (int j = i + 1; j < clusterCount(); j++) {
-                edges += 1;
+                edges += 1.0;
                 separation += separation(i, j);
             }
         }
-        return separation / edges;
+        double output;
+        if (edges > 0) {
+            output = separation / edges;
+        } else {
+            output = 0;
+        }
+        return output;
     }
     
     public double averageCohesion() {

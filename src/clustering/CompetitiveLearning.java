@@ -14,10 +14,12 @@ public class CompetitiveLearning implements Cluster
     private int maxClusters;
     private double[] lastDeltas;
     private double[] parameters;
+    boolean verbose;
 
-    public CompetitiveLearning(double[] parameters)
+    public CompetitiveLearning(double[] parameters, boolean verbose)
     {
         this.parameters = parameters;
+        this.verbose = verbose;
     }
 
     /**
@@ -31,6 +33,7 @@ public class CompetitiveLearning implements Cluster
     public int[] run(double[][] examples)
     {
         System.out.println("Starting backprop");
+        maxClusters = (int)Math.round(parameters[2]);
         FeedForwardNeuralNetwork net = new FeedForwardNeuralNetwork(1,
                 new int[]{examples[0].length, 100, maxClusters}, ActivationFunction.LOGISTIC,
                 ActivationFunction.LOGISTIC);
@@ -38,9 +41,10 @@ public class CompetitiveLearning implements Cluster
         learningRate = parameters[0];
         momentum = parameters[1];
 
+
         int[] sizes = net.getSizes();
 
-        int value = 1700000 / examples.length;
+        int value = 1 / examples.length;
         for(int i = 0; i < value + 1; i++)
         {
             //for each example
