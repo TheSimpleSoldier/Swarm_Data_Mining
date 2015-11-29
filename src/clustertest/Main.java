@@ -2,6 +2,7 @@ package clustertest;
 
 import kMeans.kMeansClusterer;
 import clustering.*;
+import PSO.*;
 
 public class Main
 {
@@ -28,10 +29,10 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 3;  // Specify the file to use (see file array)
+        int fileIndex = 8;  // Specify the file to use (see file array)
         int testIterations = 10;  // Specify the number of test iterations
         boolean debugging = false;  // Set to true if you want to print data for individual runs.
-        boolean verbose = true;  // Set to true for verbose mode (demonstrate functionality).
+        boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
@@ -40,7 +41,8 @@ public class Main
         Cluster[] clusters = new Cluster[] {
             new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
             new DBScan.DBScan(dataFile[fileIndex], verbose),
-//            new kMeansClusterer(10, 15, verbose)
+            new kMeansClusterer(10, 15, verbose),
+            new PSO(0.1, 0.1, 0.1, 10, verbose, 0.1, 10)
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations,verbose);

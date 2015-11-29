@@ -80,7 +80,7 @@ public class kMeansClusterer implements Cluster
             dist += (x1[i] - x2[i]) * (x1[i] - x2[i]);
         }
 
-        return dist;
+        return Math.sqrt(dist);
     }
 
     public double[][] pickInitialClusterPoints(double[][] inputs)
