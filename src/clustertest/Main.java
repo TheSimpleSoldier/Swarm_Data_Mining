@@ -29,10 +29,10 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 3;  // Specify the file to use (see file array)
+        int fileIndex = 8;  // Specify the file to use (see file array)
         int testIterations = 10;  // Specify the number of test iterations
         boolean debugging = false;  // Set to true if you want to print data for individual runs.
-        boolean verbose = true;  // Set to true for verbose mode (demonstrate functionality).
+        boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);

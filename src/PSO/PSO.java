@@ -109,7 +109,7 @@ public class PSO implements Cluster
 
         }
 
-        System.out.println();
+        println("");
         // find cluster indexs for all points
         for (int j = 0; j < inputs.length; j++)
         {
@@ -127,9 +127,9 @@ public class PSO implements Cluster
             }
 
             assignments[j] = shortestIndex;
-            System.out.print("" + shortestIndex + ", ");
+            print("" + shortestIndex + ", ");
         }
-        System.out.println();
+        println("");
 
         return assignments;
     }
