@@ -166,7 +166,7 @@ public class FeedForwardNeuralNetwork
      */
     public void generateRandomWeights()
     {
-        int lowest = -1;
+        int lowest = 0;
         int highest = 1;
 
         int totalWeights = 0;

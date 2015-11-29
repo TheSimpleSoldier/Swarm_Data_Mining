@@ -34,9 +34,9 @@ public class CompetitiveLearning implements Cluster
     {
         System.out.println("Starting backprop");
         maxClusters = (int)Math.round(parameters[2]);
-        FeedForwardNeuralNetwork net = new FeedForwardNeuralNetwork(1,
-                new int[]{examples[0].length, 100, maxClusters}, ActivationFunction.LOGISTIC,
-                ActivationFunction.LOGISTIC);
+        FeedForwardNeuralNetwork net = new FeedForwardNeuralNetwork(0,
+                new int[]{examples[0].length, maxClusters}, ActivationFunction.LINEAR,
+                ActivationFunction.LINEAR);
         lastDeltas = new double[net.getWeights().length];
         learningRate = parameters[0];
         momentum = parameters[1];
@@ -44,7 +44,7 @@ public class CompetitiveLearning implements Cluster
 
         int[] sizes = net.getSizes();
 
-        int value = 1 / examples.length;
+        int value = 100000 / examples.length;
         for(int i = 0; i < value + 1; i++)
         {
             //for each example
@@ -171,14 +171,14 @@ public class CompetitiveLearning implements Cluster
             }
         }
 
-        expectedOutputs[cluster] = 1;
-
-        System.out.println(cluster);
-        /*for(int k = 0; k < expectedOutputs.length; k++)
+        /*System.out.println(cluster);
+        for(int k = 0; k < expectedOutputs.length; k++)
         {
             System.out.print(expectedOutputs[k] + ", ");
         }
         System.out.println();*/
+
+        expectedOutputs[cluster] = 3;
 
 
         //go backward from output to first hidden layer
