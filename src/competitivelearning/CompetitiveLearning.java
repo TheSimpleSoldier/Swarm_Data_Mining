@@ -1,5 +1,6 @@
-package clustering;
+package competitivelearning;
 
+import clustering.Cluster;
 import feedforward.ActivationFunction;
 import feedforward.FeedForwardNeuralNetwork;
 
