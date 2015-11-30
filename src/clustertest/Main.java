@@ -8,16 +8,16 @@ public class Main
 {
     // Array of every file name. Indices are the same as the datasets.
     public static String[] dataFile = {
-        "data/movement_libras.csv",
-        "data/turkiye-student-evaluation_generic.csv",
-        "data/airfoil.data",
-        "data/seeds.data",
-        "data/synthetic_control.data",
-        "data/dow_jones.data",
-        "data/SPECTF.csv",
-        "data/gesture.csv",
-        "data/wholesale.csv",
-        "data/bupa.csv",
+        "data/movement_libras.csv",//0
+        "data/turkiye-student-evaluation_generic.csv",//1
+        "data/airfoil.data",//2
+        "data/seeds.data",//3
+        "data/synthetic_control.data",//4
+        "data/dow_jones.data",//5
+        "data/SPECTF.csv",//6
+        "data/gesture.csv",//7
+        "data/wholesale.csv",//8
+        "data/bupa.csv",//9
     };
 
     /**
@@ -29,7 +29,7 @@ public class Main
      */
     public static void main(String[] args)
     {
-        int fileIndex = 8;  // Specify the file to use (see file array)
+        int fileIndex = 6;  // Specify the file to use (see file array)
         int testIterations = 10;  // Specify the number of test iterations
         boolean debugging = false;  // Set to true if you want to print data for individual runs.
         boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).

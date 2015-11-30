@@ -115,7 +115,7 @@ public class DBScan implements Cluster {
             case "data/wholesale.csv":
                 // Defaults work well
                 break;
-            default: // data/bupa.csv
+            case "data/bupa.csv":
                 minPoints = 7;
                 deviationsFromMean = -0.17;
                 break;

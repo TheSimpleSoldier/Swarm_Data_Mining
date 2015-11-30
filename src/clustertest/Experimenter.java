@@ -225,7 +225,7 @@ public class Experimenter {
                     cohesionAves[i]);
         }
         
-        System.out.println("--------------------------------------------Errors--------------------------------------------");
+        System.out.println("----------------------------------------Percent Errors----------------------------------------");
         System.out.println("Algorithm           | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion");
         for (int i = 0; i < results.length; i++) {
         System.out.format("%-20s| %-18.3f| %-13.3f| %-14.3f| %-11.3f| %.3f%n",
