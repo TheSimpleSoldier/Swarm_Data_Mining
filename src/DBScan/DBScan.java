@@ -127,11 +127,11 @@ public class DBScan implements Cluster {
     public int[] run(double[][] dataset) {
         distances = DataTools.distancesTo(dataset);
         // Set regionSize if regionSize not known
-        if (epsilon < 0) {
+        if (epsilon == -1) {
             epsilon = setEpsilon(dataset);
         }
         // Set minimum points for core labels as the number of attributes if not set
-        if (minPoints < 0) {
+        if (minPoints == -1) {
             minPoints = Math.min(dataset.length/5, dataset[0].length + (int) deviationsFromMean);
         }
         
