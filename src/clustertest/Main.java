@@ -41,7 +41,7 @@ public class Main
         
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
-            new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
+            new CompetitiveLearning(new double[]{.01, .01, 10, 10000}, verbose),
             new ACO(new double[]{10, .01}, verbose),
             new DBScan.DBScan(dataFile[fileIndex], verbose),
             new kMeansClusterer(.001, 10, verbose),

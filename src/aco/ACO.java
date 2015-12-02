@@ -72,7 +72,7 @@ public class ACO implements Cluster
         int maxAntPickUp = 9000;
         for(int k = 0; k < iterations; k++)
         {
-            if(k % 1000 == 0)
+            if(k % 1000 == 0 && verbose)
             {
                 System.out.println("Iteration: " + k);
             }

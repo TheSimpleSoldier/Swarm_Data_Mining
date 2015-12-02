@@ -13,6 +13,7 @@ public class CompetitiveLearning implements Cluster
     private double learningRate;
     private double momentum;
     private int maxClusters;
+    private double maxIterations;
     private double[] lastDeltas;
     private double[] parameters;
     boolean verbose;
@@ -33,7 +34,11 @@ public class CompetitiveLearning implements Cluster
     @Override
     public int[] run(double[][] examples)
     {
-        System.out.println("Starting backprop");
+        //System.out.println("Starting backprop");
+        if(verbose)
+        {
+            System.out.println("---------------------Begin Competitive Learning---------------------");
+        }
         maxClusters = (int)Math.round(parameters[2]);
         FeedForwardNeuralNetwork net = new FeedForwardNeuralNetwork(0,
                 new int[]{examples[0].length, maxClusters}, ActivationFunction.LINEAR,
@@ -41,60 +46,145 @@ public class CompetitiveLearning implements Cluster
         lastDeltas = new double[net.getWeights().length];
         learningRate = parameters[0];
         momentum = parameters[1];
-
+        maxIterations = parameters[3];
 
         int[] sizes = net.getSizes();
 
-        int value = 100000 / examples.length;
-        for(int i = 0; i < value + 1; i++)
+        int[] last = calculateWinners(examples, net);
+
+        if(verbose)
         {
-            //for each example
-            for(int k = 0; k < examples.length; k++)
+            System.out.println("Initial weights");
+            double[] weights = net.getWeights();
+            for(int k = 0; k < weights.length; k++)
             {
-                double[] input = new double[sizes[0]];
-
-                //separate input and output
-                for(int a = 0; a < input.length; a++)
-                {
-                    input[a] = examples[k][a];
-                }
-
-                //run backprop on it
-                backprop(input, net);
+                System.out.print(weights[k] + ", ");
             }
+            System.out.println("Initial labels");
+            for(int k = 0; k < maxClusters; k++)
+            {
+                System.out.print("Cluster " + k + ": ");
+                for(int a = 0; a < last.length; a++)
+                {
+                    if(last[a] == k)
+                    {
+                        System.out.print(a + ", ");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
 
-        int[] toReturn = new int[examples.length];
-
-        //for each example
-        for(int k = 0; k < examples.length; k++)
+        int index = 0;
+        for(int i = 1; i < maxIterations; i++)
         {
             double[] input = new double[sizes[0]];
 
             //separate input and output
             for(int a = 0; a < input.length; a++)
             {
-                input[a] = examples[k][a];
+                input[a] = examples[index][a];
             }
+            index = (index + 1) % examples.length;
 
             //run backprop on it
-            double[] outputs = net.compute(input);
-
-            int cluster = 0;
-            double max = 0;
-            for(int a = 0; a < maxClusters; a++)
+            if(i % 1000 == 0 && verbose)
             {
-                if(outputs[a] > max)
-                {
-                    cluster = a;
-                    max = outputs[a];
-                }
+                System.out.println("Iteration: " + i);
+            }
+            if(verbose)
+            {
+                backprop(input, net, i % 1000 == 0);
+            }
+            else
+            {
+                backprop(input, net, false);
             }
 
-            toReturn[k] = cluster;
+            if(i % 1000 == 0)
+            {
+                int[] temp = calculateWinners(examples, net);
+                if(verbose)
+                {
+                    //System.out.println("Iteration: " + i);
+                    /*System.out.println("Current labels");
+                    for(int k = 0; k < last.length; k++)
+                    {
+                        System.out.println(k + ": " + temp[k]);
+                    }
+                    System.out.println();*/
+                }
+                boolean same = true;
+                for(int j = 0; j < temp.length; j++)
+                {
+                    if(last != temp)
+                    {
+                        same = false;
+                        break;
+                    }
+                }
+
+                if(same)
+                {
+                    if(verbose)
+                    {
+                        System.out.println("Final weights");
+                        double[] weights = net.getWeights();
+                        for(int k = 0; k < weights.length; k++)
+                        {
+                            System.out.print(weights[k] + ", ");
+                        }
+                        System.out.println("Final labels");
+                        for(int k = 0; k < maxClusters; k++)
+                        {
+                            System.out.print("Cluster " + k + ": ");
+                            for(int a = 0; a < last.length; a++)
+                            {
+                                if(last[a] == k)
+                                {
+                                    System.out.print(a + ", ");
+                                }
+                            }
+                            System.out.println();
+                        }
+                        System.out.println();
+                        System.out.println("----------------------End Competitive Learning----------------------");
+                    }
+                    return temp;
+                }
+                else
+                {
+                    last = temp;
+                }
+            }
+        }
+        if(verbose)
+        {
+            System.out.println("Final weights");
+            double[] weights = net.getWeights();
+            for(int k = 0; k < weights.length; k++)
+            {
+                System.out.print(weights[k] + ", ");
+            }
+            System.out.println("Final labels");
+            for(int k = 0; k < maxClusters; k++)
+            {
+                System.out.print("Cluster " + k + ": ");
+                for(int a = 0; a < last.length; a++)
+                {
+                    if(last[a] == k)
+                    {
+                        System.out.print(a + ", ");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println("----------------------End Competitive Learning----------------------");
         }
 
-        return toReturn;
+        return calculateWinners(examples, net);
     }
 
     /**
@@ -102,7 +192,7 @@ public class CompetitiveLearning implements Cluster
      * @param inputs the inputs for the example
      * @param net the network to train
      */
-    public void backprop(double[] inputs, FeedForwardNeuralNetwork net)
+    public void backprop(double[] inputs, FeedForwardNeuralNetwork net, boolean verbose)
     {
         //create variables that will be used later
         int[] sizes = net.getSizes();
@@ -159,6 +249,15 @@ public class CompetitiveLearning implements Cluster
             lastLayer = sizes[k];
         }
 
+        if(verbose)
+        {
+            System.out.println("Outputs");
+            for(int k = 0; k < maxClusters; k++)
+            {
+                System.out.print(allOutputs[hiddenLayers + 1][k] + ", ");
+            }
+            System.out.println();
+        }
         double[] expectedOutputs = new double[maxClusters];
         int cluster = 0;
         double max = 0;
@@ -171,15 +270,13 @@ public class CompetitiveLearning implements Cluster
                 max = allOutputs[hiddenLayers + 1][k];
             }
         }
-
-        /*System.out.println(cluster);
-        for(int k = 0; k < expectedOutputs.length; k++)
+        if(verbose)
         {
-            System.out.print(expectedOutputs[k] + ", ");
+            System.out.println("Output " + cluster + " will be set to max value");
+            System.out.println();
         }
-        System.out.println();*/
 
-        expectedOutputs[cluster] = 3;
+        expectedOutputs[cluster] = 4;
 
 
         //go backward from output to first hidden layer
@@ -218,5 +315,35 @@ public class CompetitiveLearning implements Cluster
                 }
             }
         }
+    }
+
+    private int[] calculateWinners(double[][] examples, FeedForwardNeuralNetwork net)
+    {
+        int[] outputs = new int[examples.length];
+        for(int k = 0; k < examples.length; k++)
+        {
+            double[] input = new double[net.getSizes()[0]];
+
+            for(int a = 0; a < input.length; a++)
+            {
+                input[a] = examples[k][a];
+            }
+            double[] output = net.compute(input);
+
+            int max = -1;
+            double maxValue = -1;
+            for(int a = 0; a < output.length; a++)
+            {
+                if(output[a] > maxValue)
+                {
+                    max = a;
+                    maxValue = output[a];
+                }
+            }
+
+            outputs[k] = max;
+        }
+
+        return outputs;
     }
 }
