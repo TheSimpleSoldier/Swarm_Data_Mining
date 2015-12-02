@@ -241,6 +241,7 @@ public class DBScan implements Cluster {
         }
 
         labels = clusterNoise(labels, neighbors, distances);
+        labels = clusterNoise(labels, neighbors, distances);
 
         return labels;
     }
@@ -299,8 +300,8 @@ public class DBScan implements Cluster {
 
     public int[] clusterNoise(int[] labels, Integer[][] neighbors, double[][] distances) {
         for (int i = 0; i < labels.length; i++) {
-            int nearest = 0;
-            double shortestDist = distances[i][0];
+            int nearest = -1;
+            double shortestDist = Double.MAX_VALUE;
             for (int j = 0; j < distances[i].length; j++) {
                 if (j != i && distances[i][j] < shortestDist && labels[j] >= 0) {
                     nearest = j;
@@ -308,6 +309,15 @@ public class DBScan implements Cluster {
                 }
             }
 
+            if (nearest == -1) {
+                for (int j = 0; j < labels.length; j++) {
+                    if (labels[j] >= 0) {
+                        labels[i] = labels[j];
+                        break;
+                    }
+                }
+            }
+            
             labels[i] = labels[nearest];
         }
         return labels;
