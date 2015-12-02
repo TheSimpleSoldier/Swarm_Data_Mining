@@ -74,7 +74,7 @@ public class Experimenter {
                 // Increment i, increment algorithm index, print out status.
                 //i += 1;
                 algorithmIndex += 1;
-                System.out.println("Completed iteration " + i + " of " + TEST_ITERATIONS);
+                System.out.println("Completed iteration " + algorithmIndex + " of " + TEST_ITERATIONS);
             }
         }
         
