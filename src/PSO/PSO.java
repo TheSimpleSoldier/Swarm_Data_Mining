@@ -43,7 +43,7 @@ public class PSO implements Cluster
 
     public int[] run(double[][] inputs)
     {
-        println("Starting PSO");
+        println("----------------- PSO Begin --------------------------------");
         int[] assignments = new int[inputs.length];
 
         swarm = swarmInitialization(inputs);
@@ -79,6 +79,7 @@ public class PSO implements Cluster
             for (int j = 0; j < swarm.length; j++)
             {
                 double score = swarm[j].getScore();
+                println("Particle " + j + "'s score is: " + score);
                 if (score < globalBestScore)
                 {
                     println("Updated global best score to: " + score);
@@ -127,10 +128,11 @@ public class PSO implements Cluster
             }
 
             assignments[j] = shortestIndex;
-            print("" + shortestIndex + ", ");
+            //print("" + shortestIndex + ", ");
         }
         println("");
 
+        println("----------------- PSO End --------------------------------");
         return assignments;
     }
 
@@ -141,7 +143,8 @@ public class PSO implements Cluster
         for (int i = 0; i < this.numbOfCentroids; i++)
         {
             int index = (int) (Math.random() * inputs.length);
-            newSwarm[i] = new Particle(inputs[index], this.localMax, this.globalMax, this.randomMax, this.momentum);
+            println("Assigning Starting Centroid: " + i + " to input: " + index);
+            newSwarm[i] = new Particle(inputs[index], this.localMax, this.globalMax, this.randomMax, this.momentum, i);
         }
 
         return newSwarm;
@@ -160,8 +163,9 @@ public class PSO implements Cluster
         private double momentum;
         private double[] currentVelocity;
         private double bestLocalScore;
+        private int id;
 
-        public Particle(double[] startingLocation, double localMax, double globalMax, double randomMax, double momentum)
+        public Particle(double[] startingLocation, double localMax, double globalMax, double randomMax, double momentum, int id)
         {
             this.location = startingLocation;
             this.localMax = localMax;
@@ -169,6 +173,7 @@ public class PSO implements Cluster
             this.randomMax = randomMax;
             this.momentum = momentum;
             this.initialize();
+            this.id = id;
         }
 
         public void initialize()
@@ -236,6 +241,7 @@ public class PSO implements Cluster
             for (int i = 0; i < location.length; i++)
             {
                 currentVelocity[i] = momentum * currentVelocity[i] + Math.random() * globalMax * pointDiff(location[i], globalBest[i]) + Math.random() * localMax * pointDiff(location[i], localBest[i]);
+                println("Updating particle " + this.id + "'s position with velocity x" + i + "=" + currentVelocity[i]);
                 location[i] += currentVelocity[i];
             }
         }
