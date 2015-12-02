@@ -86,8 +86,8 @@ public class ACO implements Cluster
         System.out.println();
         System.out.println();*/
 
-        int iterations = 100000;
-        int maxAntPickUp = 99000;
+        int iterations = 10000;
+        int maxAntPickUp = 9900;
         for(int k = 0; k < iterations; k++)
         {
             //System.out.println("Iteration: " + k);
@@ -159,7 +159,7 @@ public class ACO implements Cluster
             System.out.println(data[k][0] + ", " + data[k][1]);
         }*/
 
-        return new DBScan().run(data);
+        return new DBScan(3,2.0).run(data);
     }
 
     private DataPoint[] getNeighborhood(DataPoint[][] points, int x, int y)
