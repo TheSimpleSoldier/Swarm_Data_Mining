@@ -6,17 +6,17 @@ import clustertest.*;
 import clustering.*;
 
 /**
- * 
+ *
  * @author David Bell
  */
 public class DBScan implements Cluster {
-    
+
     private double deviationsFromMean;
     private double epsilon;
     private int minPoints;
     private boolean verbose;
     private double[][] distances;
-    
+
     /**
      * Initialize all parameters based on dataset.
      */
@@ -26,10 +26,11 @@ public class DBScan implements Cluster {
         deviationsFromMean = 2;
         distances = null;
     }
-    
+
     /**
      * Use the deviations to find parameters.
-     * @param deviations 
+     *
+     * @param deviations
      */
     public DBScan(double deviations) {
         minPoints = -1;
@@ -37,9 +38,10 @@ public class DBScan implements Cluster {
         deviationsFromMean = deviations;
         distances = null;
     }
-    
+
     /**
      * Set only minPoints.
+     *
      * @param minPoints
      */
     public DBScan(int minPoints) {
@@ -48,11 +50,12 @@ public class DBScan implements Cluster {
         deviationsFromMean = 2;
         distances = null;
     }
-    
+
     /**
      * Use the deviations to find a good regionSize, while setting minPoints.
+     *
      * @param deviations
-     * @param minPoints 
+     * @param minPoints
      */
     public DBScan(int minPoints, double deviations) {
         this.minPoints = minPoints;
@@ -60,12 +63,13 @@ public class DBScan implements Cluster {
         deviationsFromMean = deviations;
         distances = null;
     }
-    
+
     /**
      * Use this constructor once you have found good parameters for regionSize
      * (epsilon) and minPoints.
+     *
      * @param regionSize
-     * @param minPoints 
+     * @param minPoints
      */
     public DBScan(double regionSize, int minPoints) {
         this.minPoints = minPoints;
@@ -73,15 +77,15 @@ public class DBScan implements Cluster {
         distances = null;
         deviationsFromMean = 0;
     }
-    
+
     public DBScan(String dataset, boolean verbosity) {
         verbose = verbosity;
         distances = null;
         epsilon = -1;
         deviationsFromMean = 2;
         minPoints = -1;
-        
-        switch(dataset) {
+
+        switch (dataset) {
             case "data/movement_libras.csv":
                 minPoints = 8;
                 deviationsFromMean = 2.15;
@@ -121,8 +125,7 @@ public class DBScan implements Cluster {
                 break;
         }
     }
-    
-    
+
     @Override
     public int[] run(double[][] dataset) {
         distances = DataTools.distancesTo(dataset);
@@ -132,14 +135,14 @@ public class DBScan implements Cluster {
         }
         // Set minimum points for core labels as the number of attributes if not set
         if (minPoints == -1) {
-            minPoints = Math.min(dataset.length/5, dataset[0].length + (int) deviationsFromMean);
+            minPoints = Math.min(dataset.length / 5, dataset[0].length + (int) deviationsFromMean);
         }
-        
+
         if (verbose) {
             System.out.println("---------------------Begin DB-Scan---------------------");
-            System.out.format("Epsilon/max distance of neighbors: %f%nMinimum vectors in a core neighborhood: %d%n%n", epsilon,minPoints);
+            System.out.format("Epsilon/max distance of neighbors: %f%nMinimum vectors in a core neighborhood: %d%n%n", epsilon, minPoints);
         }
-        
+
         // Get the neighbors of every node
         Integer[][] neighbors = getNeighbors(dataset);
         // Initialize labels array (0 = noise, 1 = core, -1 = border)
@@ -151,36 +154,36 @@ public class DBScan implements Cluster {
             // Get the size of vector i's neighborhood
             int neighborhoodSize = neighbors[i].length;
             // Find a core vector that has not been visited
-            while(labels[i] != 0 || neighborhoodSize < minPoints) {
+            while (labels[i] != 0 || neighborhoodSize < minPoints) {
                 i += 1;
                 if (i >= neighbors.length) {
                     break visit_neighbors;
                 }
                 neighborhoodSize = neighbors[i].length;
             }
-            
+
             // Increment cluster label and mark current vector as its first member
             currentCluster += 1;
             labels[i] = currentCluster;
-            
+
             if (verbose) {
                 System.out.println("Building cluster " + currentCluster + ":");
                 System.out.format("Initial core vector index = %d, neighbors = %d.%n",
-                                i,
-                                neighbors[i].length);
+                        i,
+                        neighbors[i].length);
             }
-            
+
             int mergedPts = 0;
-            
+
             // Go through all of the vectors in the current neighborhood
             for (int j = 0; j < neighborhoodSize; j++) {
-                
+
                 // Get the index of neighbor j
                 int Jth_neighbor = neighbors[i][j];
-                
+
                 // Get the label of the Jth neighbor's cluster
                 int neighborCluster = labels[Jth_neighbor];
-                
+
                 // If Jth neighbor is not in a cluster, add it to this cluster
                 if (neighborCluster != currentCluster) {
                     labels[Jth_neighbor] = currentCluster;
@@ -188,15 +191,15 @@ public class DBScan implements Cluster {
                     if (neighbors[Jth_neighbor].length >= minPoints) {
                         if (verbose) {
                             System.out.print("Merging core vectors: {" + Jth_neighbor);
-                            mergedPts += mergeClusters(labels,neighbors,Jth_neighbor,currentCluster);
+                            mergedPts += mergeClusters(labels, neighbors, Jth_neighbor, currentCluster);
                             System.out.println("}");
                         } else {
-                            mergedPts += mergeClusters(labels,neighbors,Jth_neighbor,currentCluster);
+                            mergedPts += mergeClusters(labels, neighbors, Jth_neighbor, currentCluster);
                         }
                     }
                 }
             }
-            
+
             if (verbose) {
                 System.out.println("Merged " + mergedPts + " neighborhoods of core vectors into cluster " + currentCluster + ".");
                 int pts = 0;
@@ -209,7 +212,7 @@ public class DBScan implements Cluster {
                 System.out.println();
             }
         }
-        
+
         // Merge clusters sharing core points in their neighborhoods
         ArrayList<Integer> keys = new ArrayList<>();
         for (int i = 0; i < labels.length; i++) {
@@ -229,17 +232,19 @@ public class DBScan implements Cluster {
                 labels[i] = keys.indexOf(labels[i]);
             }
         }
-        
+
         if (verbose) {
             System.out.println();
             System.out.println("-----------------------End DB-Scan-----------------------");
             System.out.println();
             System.out.println();
         }
-        
+
+        labels = clusterNoise(labels, neighbors, distances);
+
         return labels;
     }
-    
+
     public int mergeClusters(int[] labels, Integer[][] neighbors, int corePoint, int cluster) {
         int merged = 1;
         for (int k = 0; k < neighbors[corePoint].length; k++) {
@@ -250,53 +255,70 @@ public class DBScan implements Cluster {
                 if (verbose) {
                     System.out.print("," + neighbor_of_corePoint);
                 }
-                merged += mergeClusters(labels,neighbors,neighbor_of_corePoint,cluster);
+                merged += mergeClusters(labels, neighbors, neighbor_of_corePoint, cluster);
             }
         }
         return merged;
     }
-    
+
     public Integer[][] getNeighbors(double[][] dataset) {
         int size = dataset.length;
         Integer[][] neighbors = new Integer[size][];
-        
+
         // For each vector in the dataset
         for (int i = 0; i < size; i++) {
             // Find all indices of the vector's neighbors
             neighbors[i] = findNeighbors(i, dataset);
         }
-        
+
         return neighbors;
     }
-    
+
     public Integer[] findNeighbors(int pointIndex, double[][] dataset) {
         ArrayList<Integer> foundNeighbors = new ArrayList<>();
-        
+
         if (distances == null) {
             distances = DataTools.distancesTo(dataset);
         }
-        
+
         for (int i = 0; i < dataset.length; i++) {
-            
+
             if (distances[pointIndex][i] < epsilon && distances[pointIndex][i] > 0) {
                 foundNeighbors.add(i);
             }
         }
-        
+
         Integer[] output = new Integer[foundNeighbors.size()];
-        
+
         for (int i = 0; i < output.length; i++) {
             output[i] = foundNeighbors.get(i);
         }
-        
+
         return output;
     }
-    
+
+    public int[] clusterNoise(int[] labels, Integer[][] neighbors, double[][] distances) {
+        for (int i = 0; i < labels.length; i++) {
+            int nearest = 0;
+            double shortestDist = distances[i][0];
+            for (int j = 0; j < distances[i].length; j++) {
+                if (j != i && distances[i][j] < shortestDist && labels[j] >= 0) {
+                    nearest = j;
+                    shortestDist = distances[i][j];
+                }
+            }
+
+            labels[i] = labels[nearest];
+        }
+        return labels;
+    }
+
     /**
      * Find the Euclidean distance between a and b.
+     *
      * @param a
      * @param b
-     * @return 
+     * @return
      */
     public double distance(double[] a, double[] b) {
         double distance = 0.0;
@@ -306,18 +328,19 @@ public class DBScan implements Cluster {
         }
         return Math.sqrt(distance);
     }
-    
+
     /**
      * Set epsilon, the max distance of any node's neighbors
+     *
      * @param dataset
-     * @return 
+     * @return
      */
     public double setEpsilon(double[][] dataset) {
         double[][] distances = DataTools.distancesTo(dataset);
         double averageSmall = 0.0;
         double[] smalls = new double[distances.length];
-        
-        for(int i = 0; i < distances.length; i++) {
+
+        for (int i = 0; i < distances.length; i++) {
             double small = 999999999.0;
             for (int j = 0; j < distances.length; j++) {
                 double nextDistance = distances[i][j];
@@ -328,19 +351,19 @@ public class DBScan implements Cluster {
             smalls[i] = small;
             averageSmall += small;
         }
-        
+
         averageSmall /= (double) smalls.length;
-        
+
         double stdDeviation = 0.0;
-        
+
         for (int i = 0; i < smalls.length; i++) {
             double difference = averageSmall - smalls[i];
-            stdDeviation += difference*difference;
+            stdDeviation += difference * difference;
         }
-        
+
         stdDeviation /= smalls.length;
         stdDeviation = Math.sqrt(stdDeviation);
-        
+
         return averageSmall + stdDeviation * deviationsFromMean;
     }
 }
