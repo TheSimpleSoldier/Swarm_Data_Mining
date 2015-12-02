@@ -33,18 +33,22 @@ public class kMeansClusterer implements Cluster
 
     public int[] run(double[][] inputs)
     {
-        println("Starting k-Means Clustering");
+        println("--------------------------- kMeans begin --------------------------");
         double[][][] clusteredData;
         double distance;
         double[][] clusters = pickInitialClusterPoints(inputs);
 
         do {
-            println("Starting another round of clustering");
+            println("Starting a round of clustering");
             clusteredData = assignInputsToClusters(inputs, clusters);
             double[][] newClusters = pickNewClusters(clusteredData);
             distance = avgClusterMovement(clusters, newClusters);
+            println("Average movement of centroids for the round was: " + distance);
+            println("Are we going to run another round?" + (distance > this.minDistance));
             clusters = newClusters;
         } while (distance > this.minDistance);
+
+        println("--------------------------- kMeans end ---------------------------");
 
         return findInputsIndex(inputs, clusteredData);
     }
@@ -92,7 +96,7 @@ public class kMeansClusterer implements Cluster
 
         while (numbOfClusters < size)
         {
-            if (Math.random() < 0.1)
+            if (Math.random() < 0.01)
             {
                 println("Selecting point: " + (index % inputs.length) + " To be an initial cluster");
                 clusters[numbOfClusters] = inputs[index % inputs.length];
@@ -156,10 +160,13 @@ public class kMeansClusterer implements Cluster
             }
         }
 
+        println("Calculated new centroid for a cluster: ");
         for (int i = 0; i < total.length; i++)
         {
             total[i] /= cluster.length;
+            print(total[i] + ", ");
         }
+        println("");
 
         return total;
     }

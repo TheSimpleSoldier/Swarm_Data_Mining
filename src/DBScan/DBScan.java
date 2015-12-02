@@ -2,8 +2,8 @@ package DBScan;
 
 import java.util.ArrayList;
 
-import clustertest.DataTools;
-import clustering.Cluster;
+import clustertest.*;
+import clustering.*;
 
 /**
  * 
