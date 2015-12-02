@@ -41,9 +41,10 @@ public class Ant extends GridObject
         if(isHolding)
         {
             double lamda = computeLamda(holding, neighborhood);
+            double drop = lamda * 2;
             if(lamda < gamma)
             {
-                if(rand.nextDouble() <= 2 * lamda)
+                if(rand.nextDouble() <= drop)
                 {
                     return true;
                 }
@@ -60,6 +61,10 @@ public class Ant extends GridObject
         for(int k = 0; k < neighborhood.length; k++)
         {
             sum += (1 - (point.distance(neighborhood[k]) / gamma));
+        }
+        if(neighborhood.length == 0)
+        {
+            return 0.01;
         }
         return Math.max(0, (1 / Math.pow(neighborhood.length, 2)) * sum);
     }
