@@ -27,9 +27,9 @@ public class ACO implements Cluster
     public int[] run(double[][] dataset)
     {
         Random rand = new Random();
-        int size = dataset.length / 4;
+        int size = (int)Math.round(Math.sqrt(dataset.length)) * 2;
         int numAnts = dataset.length / 2;
-        neighborhood = size / 8;
+        neighborhood = 5;
         Ant[][] ants = new Ant[size][size];
         DataPoint[][] points = new DataPoint[size][size];
         Ant[] allAnts = new Ant[numAnts];
@@ -68,29 +68,14 @@ public class ACO implements Cluster
             }
         }
 
-        /*for(int k = 0; k < size; k++)
-        {
-            for(int a = 0; a < size; a++)
-            {
-                if(points[k][a] == null)
-                {
-                    System.out.print("0");
-                }
-                else
-                {
-                    System.out.print("1");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();*/
-
         int iterations = 10000;
-        int maxAntPickUp = 9900;
+        int maxAntPickUp = 9000;
         for(int k = 0; k < iterations; k++)
         {
-            //System.out.println("Iteration: " + k);
+            if(k % 1000 == 0)
+            {
+                System.out.println("Iteration: " + k);
+            }
             for(int a = 0; a < numAnts; a++)
             {
                 int[] loc = allAnts[a].getLocation();
@@ -120,11 +105,42 @@ public class ACO implements Cluster
 
                 int x = rand.nextInt() % 2;
                 int y = rand.nextInt() % 2;
+                int[] tempLoc = allAnts[a].getLocation();
+                if(tempLoc[0] + x < 0 || tempLoc[0] + x >= size)
+                {
+                    x = 0;
+                }
+                if(tempLoc[1] + y < 0 || tempLoc[1] + y >= size)
+                {
+                    y = 0;
+                }
+                boolean done = false;
+                int i = 0;
+                while(ants[tempLoc[0] + x][tempLoc[1] + y] != null && !done)
+                {
+                    x = rand.nextInt() % 2;
+                    y = rand.nextInt() % 2;
+                    if(tempLoc[0] + x < 0 || tempLoc[0] + x >= size)
+                    {
+                        x = 0;
+                    }
+                    if(tempLoc[1] + y < 0 || tempLoc[1] + y >= size)
+                    {
+                        y = 0;
+                    }
+                    if(i >= 10)
+                    {
+                        done = true;
+                    }
+                    i++;
+                }
                 allAnts[a].move(x, y);
+                ants[loc[0]][loc[1]] = null;
+                loc = allAnts[a].getLocation();
+                ants[loc[0]][loc[1]] = allAnts[a];
             }
         }
 
-        //System.out.println("dropping");
         for(int k = 0; k < allAnts.length; k++)
         {
             if(allAnts[k].isHolding())
@@ -132,16 +148,38 @@ public class ACO implements Cluster
                 int[] loc = allAnts[k].getLocation();
                 while(points[loc[0]][loc[1]] != null)
                 {
-                    loc = allAnts[k].getLocation();
                     int x = rand.nextInt() % 2;
                     int y = rand.nextInt() % 2;
+                    loc = allAnts[k].getLocation();
+                    if(loc[0] + x < 0 || loc[0] + x >= size)
+                    {
+                        x = 0;
+                    }
+                    if(loc[1] + y < 0 || loc[1] + y >= size)
+                    {
+                        y = 0;
+                    }
+                    while(ants[loc[0] + x][loc[1] + y] != null)
+                    {
+                        x = rand.nextInt() % 2;
+                        y = rand.nextInt() % 2;
+                        if(loc[0] + x < 0 || loc[0] + x >= size)
+                        {
+                            x = 0;
+                        }
+                        if(loc[1] + y < 0 || loc[1] + y >= size)
+                        {
+                            y = 0;
+                        }
+                    }
                     allAnts[k].move(x, y);
+                    ants[loc[0]][loc[1]] = null;
+                    loc = allAnts[k].getLocation();
+                    ants[loc[0]][loc[1]] = allAnts[k];
                 }
                 points[loc[0]][loc[1]] = allAnts[k].drop();
             }
         }
-
-        //System.out.println("creating data");
 
         double[][] data = new double[dataset.length][2];
 
@@ -154,12 +192,7 @@ public class ACO implements Cluster
 
         data = DataTools.normalizeData(data);
 
-        /*for(int k = 0; k < data.length; k++)
-        {
-            System.out.println(data[k][0] + ", " + data[k][1]);
-        }*/
-
-        return new DBScan(3,2.0).run(data);
+        return new DBScan().run(data);
     }
 
     private DataPoint[] getNeighborhood(DataPoint[][] points, int x, int y)

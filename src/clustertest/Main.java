@@ -34,18 +34,18 @@ public class Main
         int fileIndex = 3;  // Specify the file to use (see file array)
         int testIterations = 1;  // Specify the number of test iterations
         boolean debugging = false;  // Set to true if you want to print data for individual runs.
-        boolean verbose = true;  // Set to true for verbose mode (demonstrate functionality).
+        boolean verbose = false;  // Set to true for verbose mode (demonstrate functionality).
         
         // Initialize dataset
         double[][] dataset = DataTools.getDataFromFile(dataFile[fileIndex]);
         
         // Init cluster algorithms
         Cluster[] clusters = new Cluster[] {
-//            new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
-            new ACO(new double[]{10, .5}, verbose),
+            new CompetitiveLearning(new double[]{.01, .01, 10}, verbose),
+            new ACO(new double[]{10, .01}, verbose),
             new DBScan.DBScan(dataFile[fileIndex], verbose),
-//            new kMeansClusterer(.001, 10, verbose),
-//            new PSO(0.2, 0.2, 0.1, 75, verbose, 0.001, 10)
+            new kMeansClusterer(.001, 10, verbose),
+            new PSO(0.2, 0.2, 0.1, 75, verbose, 0.001, 10)
         };
         
         Experimenter experiment = new Experimenter(clusters, dataset, testIterations,verbose);

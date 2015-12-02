@@ -19,10 +19,10 @@ public class DataPoint extends GridObject
         double sum = 0;
         for(int k = 0; k < data.length; k++)
         {
-            sum += Math.abs(data[k] - data2[k]);
+            sum += Math.pow(data[k] - data2[k], 2);
         }
 
-        return sum;
+        return Math.sqrt(sum);
     }
 
     public double[] getData()
