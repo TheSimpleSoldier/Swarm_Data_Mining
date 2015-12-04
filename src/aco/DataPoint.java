@@ -2,6 +2,7 @@ package aco;
 
 /**
  * Created by joshua on 11/29/15.
+ * Holds data point information, such as original values
  */
 public class DataPoint extends GridObject
 {
@@ -13,6 +14,7 @@ public class DataPoint extends GridObject
         this.data = data;
     }
 
+    //calculates distance between 2 points, using original points.
     public double distance(DataPoint point)
     {
         double[] data2 = point.getData();

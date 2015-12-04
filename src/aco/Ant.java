@@ -4,6 +4,7 @@ import java.util.Random;
 
 /**
  * Created by joshua on 11/29/15.
+ * Holds data about an ant, such as what it is carrying
  */
 public class Ant extends GridObject
 {
@@ -21,6 +22,7 @@ public class Ant extends GridObject
         rand = new Random();
     }
 
+    //finds chance of picking up and chooses whether we should based on that
     public boolean shouldPickUp(DataPoint point, DataPoint[] neighborhood)
     {
         if(!isHolding)
@@ -36,6 +38,7 @@ public class Ant extends GridObject
         return false;
     }
 
+    //finds chance of dropping and chooses whether we should based on that
     public boolean shouldDrop(DataPoint[] neighborhood)
     {
         if(isHolding)
@@ -55,6 +58,7 @@ public class Ant extends GridObject
         return false;
     }
 
+    //calculates lamda, used by both pick up and drop off
     private double computeLamda(DataPoint point, DataPoint[] neighborhood)
     {
         double sum = 0;
@@ -69,6 +73,7 @@ public class Ant extends GridObject
         return Math.max(0, (1 / Math.pow(neighborhood.length, 2)) * sum);
     }
 
+    //adds data point
     public boolean pickUp(DataPoint point)
     {
         if(!isHolding)
@@ -81,6 +86,7 @@ public class Ant extends GridObject
         return false;
     }
 
+    //removes data point
     public DataPoint drop()
     {
         if(isHolding)

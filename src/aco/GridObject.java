@@ -2,6 +2,8 @@ package aco;
 
 /**
  * Created by joshua on 11/29/15.
+ * This class is inherited by and and data point and contains
+ * the code for movement
  */
 public class GridObject
 {
@@ -29,6 +31,7 @@ public class GridObject
         this.y = y;
     }
 
+    //moves, making sure not to go out of bounds, x and y are how far to move
     public void move(int x, int y)
     {
         this.x += x;

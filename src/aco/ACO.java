@@ -9,6 +9,7 @@ import java.util.Random;
 
 /**
  * Created by joshua on 11/29/15.
+ * Runs ACO cemetery algorithm
  */
 public class ACO implements Cluster
 {
@@ -35,6 +36,7 @@ public class ACO implements Cluster
         Ant[] allAnts = new Ant[numAnts];
         DataPoint[] allPoints = new DataPoint[dataset.length];
 
+        //place ants
         for(int k = 0; k < numAnts; k++)
         {
             while(true)
@@ -51,6 +53,7 @@ public class ACO implements Cluster
             }
         }
 
+        //place points
         for(int k = 0; k < dataset.length; k++)
         {
 
@@ -68,7 +71,46 @@ public class ACO implements Cluster
             }
         }
 
+        if(verbose)
+        {
+            System.out.println("Starting data points");
+            for(int k = 0; k < size; k++)
+            {
+                for(int a = 0; a < size; a++)
+                {
+                    if(points[k][a] != null)
+                    {
+                        System.out.print("1");
+                    }
+                    else
+                    {
+                        System.out.print("0");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println("Starting ant positions");
+            for(int k = 0; k < size; k++)
+            {
+                for(int a = 0; a < size; a++)
+                {
+                    if(ants[k][a] != null)
+                    {
+                        System.out.print("1");
+                    }
+                    else
+                    {
+                        System.out.print("0");
+                    }
+                }
+                System.out.println();
+            }
+        }
+
+        //for each iteration
         int iterations = 10000;
+        //set up time when ants can only drop
         int maxAntPickUp = 9000;
         for(int k = 0; k < iterations; k++)
         {
@@ -76,33 +118,48 @@ public class ACO implements Cluster
             {
                 System.out.println("Iteration: " + k);
             }
+            //for each ant
             for(int a = 0; a < numAnts; a++)
             {
                 int[] loc = allAnts[a].getLocation();
+                //if its holding
                 if(allAnts[a].isHolding())
                 {
+                    //and there is nothing there
                     if(points[loc[0]][loc[1]] == null)
                     {
+                        //drop according to environment
                         if(allAnts[a].shouldDrop(getNeighborhood(points, loc[0], loc[1])))
                         {
                             points[loc[0]][loc[1]] = allAnts[a].drop();
+                            if(verbose)
+                            {
+                                System.out.println("Ant dropped at (" + loc[0] + ", " + loc[1] + ")");
+                            }
                         }
                     }
                 }
                 else
                 {
+                    //if holding nothing and data point there
                     if(points[loc[0]][loc[1]] != null && k < maxAntPickUp)
                     {
+                        //pick up according to environment
                         if(allAnts[a].shouldPickUp(points[loc[0]][loc[1]], getNeighborhood(points, loc[0], loc[1])))
                         {
                             if(allAnts[a].pickUp(points[loc[0]][loc[1]]))
                             {
                                 points[loc[0]][loc[1]] = null;
+                                if(verbose)
+                                {
+                                    System.out.println("Ant picked up at (" + loc[0] + ", " + loc[1] + ")");
+                                }
                             }
                         }
                     }
                 }
 
+                //code to move ant
                 int x = rand.nextInt() % 2;
                 int y = rand.nextInt() % 2;
                 int[] tempLoc = allAnts[a].getLocation();
@@ -141,6 +198,7 @@ public class ACO implements Cluster
             }
         }
 
+        //all ants drop their points wherever they are
         for(int k = 0; k < allAnts.length; k++)
         {
             if(allAnts[k].isHolding())
@@ -181,6 +239,43 @@ public class ACO implements Cluster
             }
         }
 
+        if(verbose)
+        {
+            System.out.println("Ending data points");
+            for(int k = 0; k < size; k++)
+            {
+                for(int a = 0; a < size; a++)
+                {
+                    if(points[k][a] != null)
+                    {
+                        System.out.print("1");
+                    }
+                    else
+                    {
+                        System.out.print("0");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println("Ending ant positions");
+            for(int k = 0; k < size; k++)
+            {
+                for(int a = 0; a < size; a++)
+                {
+                    if(ants[k][a] != null)
+                    {
+                        System.out.print("1");
+                    }
+                    else
+                    {
+                        System.out.print("0");
+                    }
+                }
+                System.out.println();
+            }
+        }
+
         double[][] data = new double[dataset.length][2];
 
         for(int k = 0; k < data.length; k++)
@@ -195,6 +290,7 @@ public class ACO implements Cluster
         return new DBScan().run(data);
     }
 
+    //finds all the points in the neighborhood around a point
     private DataPoint[] getNeighborhood(DataPoint[][] points, int x, int y)
     {
         ArrayList<DataPoint> dataPoints = new ArrayList<>();

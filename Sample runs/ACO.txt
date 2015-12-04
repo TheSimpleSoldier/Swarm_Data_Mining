@@ -1,0 +1,322 @@
+Starting data points
+0100110000000000011000000000
+0000000001000010001000110010
+0001011010001101000001010000
+0000010000001010000010000000
+0011001010101000110001100010
+0000001000000100000001111001
+0000110101100100100101000010
+0000000000000000010000000000
+0101010010010000000100000000
+0100010000100001010011010110
+0001100000000000010101001100
+0101010000100110001110001000
+1000010000000010000100001100
+0000000010010000010110101000
+0100000100000000000000000000
+1110100010010000000011010011
+0000010000111000000000100000
+0010010011000000111101010011
+1100010001000000000001001100
+1000101110000010001000000000
+1000101001001001010100000100
+0010000100010000011101001001
+0001000111000001011000001010
+0000010001010111000010000000
+0000100000000100001001100100
+1110010100000111000011000001
+1100000010100000001001000011
+0000011000001010001001000110
+
+Starting ant positions
+0001011000000000010100000100
+1000100001000000000000011001
+0000000000000000000000010001
+1010000000000000000000000000
+1001000001000011001000000000
+0100000000000011000000001001
+0000000000000010100000000000
+0000000000000000010000000010
+0000001000000010100101000000
+0000000000000000000100101010
+0000001000000100000010000000
+0000000000000000000000010000
+0010000000000010000100110000
+0100010101000000001000000000
+0000110100000000000100000010
+0000000010100000000000011000
+0000010000000001000010100000
+0010000010000001000001000000
+0000001000010000010000100000
+0100000100000001000000000000
+0000000000000110001000010000
+1000010010000000000000000000
+0000001100000000000010100000
+1000000000000101000000000100
+0000101001110000100000001000
+0000010000000000000000000000
+0000000100000000000000000001
+0000010000000000000000001000
+Iteration: 0
+Ant picked up at (25, 5)
+Ant picked up at (1, 9)
+Ant picked up at (16, 22)
+Ant picked up at (24, 4)
+Ant picked up at (1, 23)
+Ant picked up at (6, 16)
+Ant picked up at (4, 3)
+Ant picked up at (17, 2)
+Ant picked up at (23, 15)
+Ant picked up at (17, 8)
+Ant picked up at (12, 14)
+Ant picked up at (5, 27)
+Ant picked up at (26, 27)
+Ant picked up at (14, 7)
+Ant picked up at (7, 17)
+Ant picked up at (2, 23)
+Ant picked up at (0, 17)
+Ant picked up at (0, 5)
+Ant picked up at (17, 21)
+Ant picked up at (8, 19)
+Ant picked up at (27, 5)
+Ant picked up at (12, 19)
+Ant picked up at (9, 26)
+Ant picked up at (15, 23)
+Ant picked up at (15, 8)
+Ant picked up at (23, 13)
+Ant picked up at (22, 7)
+Ant picked up at (19, 7)
+Ant picked up at (5, 24)
+Ant picked up at (16, 5)
+Ant picked up at (20, 0)
+Ant picked up at (3, 14)
+Ant picked up at (15, 4)
+Ant picked up at (10, 19)
+Ant picked up at (17, 16)
+Ant picked up at (2, 5)
+Ant picked up at (19, 14)
+Ant picked up at (26, 8)
+Ant dropped at (0, 22)
+Ant picked up at (23, 11)
+Ant picked up at (5, 13)
+Ant picked up at (9, 5)
+Ant picked up at (11, 14)
+Ant dropped at (5, 2)
+Ant picked up at (13, 19)
+Ant dropped at (13, 7)
+Ant picked up at (10, 24)
+Ant picked up at (16, 10)
+Ant picked up at (20, 15)
+Ant picked up at (4, 17)
+Ant picked up at (9, 23)
+Ant picked up at (15, 20)
+Ant picked up at (27, 25)
+Ant picked up at (9, 20)
+Ant dropped at (21, 6)
+Ant picked up at (24, 25)
+Ant picked up at (0, 4)
+Ant picked up at (6, 26)
+Ant dropped at (27, 4)
+Ant picked up at (24, 22)
+Ant dropped at (18, 14)
+Ant picked up at (20, 17)
+Ant dropped at (22, 11)
+Ant dropped at (6, 15)
+Ant picked up at (21, 7)
+Ant dropped at (10, 15)
+Ant dropped at (17, 8)
+Ant dropped at (3, 23)
+Ant dropped at (2, 16)
+Ant picked up at (11, 1)
+Ant dropped at (10, 22)
+Ant picked up at (19, 6)
+Ant picked up at (10, 17)
+Ant dropped at (24, 24)
+Ant picked up at (20, 19)
+Ant picked up at (23, 20)
+Ant picked up at (26, 10)
+Ant dropped at (15, 4)
+Ant dropped at (18, 17)
+Ant picked up at (2, 15)
+Ant picked up at (9, 15)
+Ant picked up at (4, 2)
+Ant dropped at (6, 27)
+Ant picked up at (21, 21)
+Ant picked up at (17, 8)
+Ant dropped at (25, 6)
+Ant picked up at (1, 26)
+Ant dropped at (16, 20)
+Ant dropped at (25, 24)
+Ant dropped at (10, 26)
+Ant picked up at (24, 18)
+Ant dropped at (18, 6)
+Ant dropped at (23, 21)
+Ant dropped at (5, 24)
+Ant picked up at (27, 4)
+Ant dropped at (1, 8)
+Ant dropped at (27, 9)
+Ant picked up at (12, 5)
+Ant picked up at (21, 11)
+Ant picked up at (10, 22)
+Ant picked up at (2, 16)
+Ant dropped at (0, 6)
+Ant picked up at (4, 16)
+Ant dropped at (11, 1)
+Ant dropped at (0, 25)
+Ant picked up at (15, 21)
+Ant picked up at (24, 24)
+Ant picked up at (13, 20)
+Ant picked up at (10, 25)
+Ant picked up at (6, 10)
+Ant picked up at (20, 6)
+Ant dropped at (0, 3)
+Ant picked up at (2, 8)
+Ant picked up at (17, 18)
+Ant picked up at (18, 14)
+Ant picked up at (0, 18)
+Ant dropped at (11, 22)
+Ant picked up at (6, 4)
+Ant dropped at (15, 17)
+Ant dropped at (18, 15)
+Ant dropped at (6, 18)
+Ant dropped at (22, 23)
+Ant picked up at (19, 4)
+Ant picked up at (11, 24)
+Ant picked up at (0, 1)
+Ant dropped at (14, 22)
+Ant picked up at (18, 5)
+Ant dropped at (7, 26)
+Ant dropped at (15, 7)
+Ant dropped at (19, 21)
+Ant picked up at (23, 21)
+Ant picked up at (27, 9)
+Ant dropped at (24, 3)
+Ant dropped at (12, 15)
+Ant dropped at (6, 3)
+Ant picked up at (6, 27)
+Ant picked up at (6, 19)
+Ant dropped at (1, 17)
+Ant picked up at (1, 8)
+Ant dropped at (0, 0)
+Ant dropped at (15, 21)
+Ant picked up at (13, 24)
+Ant picked up at (20, 4)
+Ant picked up at (4, 26)
+Ant dropped at (1, 7)
+Ant dropped at (3, 14)
+Ant dropped at (10, 18)
+Ant dropped at (17, 15)
+Ant dropped at (26, 11)
+Ant picked up at (20, 12)
+Ant picked up at (0, 6)
+Ant dropped at (0, 18)
+Ant dropped at (8, 12)
+Ant picked up at (11, 22)
+Ant dropped at (7, 2)
+Ant dropped at (7, 27)
+Ant dropped at (23, 27)
+Ant picked up at (10, 3)
+Ant dropped at (5, 15)
+Ant picked up at (1, 18)
+Ant picked up at (5, 2)
+Ant picked up at (22, 11)
+Ant picked up at (13, 7)
+Ant picked up at (27, 6)
+Ant picked up at (13, 22)
+Ant dropped at (24, 20)
+Ant dropped at (3, 26)
+Ant dropped at (2, 14)
+Ant dropped at (11, 21)
+Ant picked up at (8, 1)
+Ant picked up at (13, 8)
+Ant picked up at (7, 2)
+Ant dropped at (13, 23)
+Ant picked up at (0, 25)
+Ant dropped at (1, 9)
+Ant dropped at (11, 24)
+Ant picked up at (2, 13)
+Ant dropped at (22, 19)
+Ant picked up at (21, 2)
+Ant dropped at (19, 12)
+Ant picked up at (0, 18)
+Ant picked up at (1, 14)
+Ant picked up at (10, 21)
+Ant picked up at (11, 13)
+Ant dropped at (17, 1)
+Ant picked up at (15, 17)
+Ant picked up at (3, 14)
+Ant picked up at (12, 24)
+Ant picked up at (3, 5)
+Ant picked up at (16, 11)
+Ant dropped at (2, 16)
+Ant picked up at (11, 5)
+Ant dropped at (26, 17)
+Ant dropped at (20, 3)
+Ant picked up at (5, 24)
+Ant picked up at (6, 9)
+Ending data points
+1001000000000000000100100000
+0000000111000100010000100100
+0001011100001010100001000000
+0000000000001101001010010010
+0000001010101000000001101000
+0100001000000001000001110000
+0001010100000101011001000000
+0100000001010000000101000011
+1001110010011000000000000010
+0100000000100000010001000100
+0000110000000011001000100010
+0101000000100000001111101100
+1000001100000001001011000100
+0001000000010000010000010000
+0100000100000000011000110000
+1110100100010001000011000011
+0000000000001000000010000000
+0100011001001011010100010011
+1100001101000001010001001100
+1000000010001000111001000000
+1001010111000000000000000100
+0000001100000000011100001001
+0011100011000001111100011010
+0000010001100010010000000101
+0001000001000100000011000000
+1111001100000111000011001001
+1100000100010000011001000010
+0000001000001010001001000010
+
+Ending ant positions
+0000000000000000000100100000
+0000000010000100000000000110
+0001010100000000000000000001
+1000100000100101101000000010
+0000000010000001000000001001
+0100000000000000000000000000
+0000000000000000011000001010
+0100000001010000000101000000
+1000100000000000011000000010
+0000000000000100010000000000
+0000010000000010000000101000
+0000100010000000000000100100
+0000001100000000001011000000
+0001000000000000000000000010
+0001000110000010011000110100
+0010000000000001001010001000
+0000000000000000000000000000
+0000001000001110000000000000
+1000000100000001000010000000
+0000000000000000110000000000
+1000010110010000000000100000
+0110000100000000000101000100
+0010100000000000100000000000
+0000000000100000010000000100
+0001000001000000001000000000
+0001000000000000000000000000
+0000000100010000000000000100
+0000001000000000010000000000
+Completed iteration 1 of 1
+
+Algorithm: ACO, iterations: 1, dataset: data/seeds.data, size: 210, attributes: 8
+-------------------------------------------Averages-------------------------------------------
+Algorithm           | Percent Clustered | Cluster Size | Cluster Count | Separation | Cohesion
+ACO                 | 100.000           | 17.500       | 12.000        | 0.989      | 0.992
+
